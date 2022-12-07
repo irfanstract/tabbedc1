@@ -1,0 +1,7 @@
+{
+  "name": "ctabs2207",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
