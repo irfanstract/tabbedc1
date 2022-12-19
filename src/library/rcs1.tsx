@@ -12,6 +12,7 @@ type NonFunctionObject = (
     { apply ?: never ; } | { call ?: never ; }
   )
 ) ;
+import { useIntervalDispatch, } from "library/useIntervalDispatch1";
 
 
 export {} ; // TS-1208
@@ -191,6 +192,24 @@ export class WithErrorbound extends React.Component<React.PropsWithChildren & Pa
     return { e: e, } ;
   }
 }
+export const useScan = (
+  function <A>(...[f , { intervalMillis, } = { intervalMillis : 500, } ] : [
+    main: () => A, 
+    config ?: { intervalMillis : number ; }, 
+  ] ): A {
+    const [v, setV,] = (
+      React.useState<A>(f() )
+    ) ;
+    useIntervalDispatch({
+      intervalMillis, 
+      intervalCallback: () => {
+        setV(f ) ;
+      } ,
+      stricity: "lowerbounded-recess" ,
+    }) ;
+    return v ;
+  }
+) ;
 
 
 
