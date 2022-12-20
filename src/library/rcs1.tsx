@@ -29,7 +29,7 @@ export const { useDependenciesChgCount1, }: {
   /**   
    * 
    */
-  useDependenciesChgCount1(options: { dependencies: React.DependencyList } ): void ;
+  useDependenciesChgCount1(options: { dependencies: React.DependencyList } ): number ;
 } = {
   useDependenciesChgCount1: ({ dependencies, }) => {
     const [c, setC,] = (
