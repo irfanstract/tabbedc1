@@ -41,7 +41,9 @@ const XBoundarySpecificC = (() => {
       const eRef = (
         React.useState<null | HTMLElement>(null )
       ) ;
-      const clsName = "uyuewgugdwydywdy" ;
+      const clsName = (
+        "uyuewgugdwydywdy" + "_" + RCS.useId()
+      ) ;
       const [eSt, setESt] = (
         React.useState<(
           FocusedHoveredProps
@@ -76,6 +78,7 @@ const XBoundarySpecificC = (() => {
               <React.Fragment>
               <div style={{ 
                 opacity: `var(${opacityCssvRef } ) ` , 
+                filter: `saturate(var(${opacityCssvRef } ) ) ` ,
                 zoom: `0.7` ,
                 maxBlockSize : `calc(2em + (var(${opacityCssvRef } ) * 20em ) ) ` , 
                 maxInlineSize: `calc(2em + (var(${opacityCssvRef } ) * 20em ) ) ` , 
@@ -84,7 +87,7 @@ const XBoundarySpecificC = (() => {
                   `var(${ overflowClpMdCssvRef } )`
                   // "auto"
                 ) ,
-                transition: `all 2.5s ease-out , opacity 0.5s ease-out`, 
+                transition: `all 2.5s ease-out , opacity 1.5s ease-out , filter 1.5s ease-out`, 
               }}>
                 { e }
               </div>
