@@ -41,6 +41,20 @@ export const { useDependenciesChgCount1, }: {
     return c ;
   } ,
 }  ;
+export const useGetupValuePrimitive = (
+  function useGetupValuePrimitiveI<A extends null | boolean | string | number , A2 extends A >(...[v1, v2]: [v1: A, v2: A, ]): A  {
+    const c = (
+      useDependenciesChgCount1({ dependencies: [v1,], })
+    ) ;
+    const cDeferred = (
+      React.useDeferredValue(c)
+    ) ;
+    return (
+      (cDeferred === c ) ?
+      v2 : v1
+    ) ;
+  }
+) ;
 const undefinedReturnVal = Symbol() ;
 /**    
  * a wrapper which would automatically update callend on every render.
@@ -171,15 +185,40 @@ export const {
     ) ,
   } ;
 } )() ;
-export class WithErrorbound extends React.Component<React.PropsWithChildren & Partial<{ Button : "button" | (typeof import("@ionic/react").IonButton ) ; }>, { e ?: null | Error ; } > {
+export class WithErrorbound extends (
+  React.Component<(
+    {} 
+    & React.PropsWithChildren 
+    & Partial<{ Button : "button" | (typeof import("@ionic/react").IonButton ) ; }>
+  ), (
+    {}
+    & { blockingException ?: null | Error ; }
+  ) >
+) {
   render(): React.ReactNode {
-    const Button = (this.props || {} ).Button ?? "button" ;
+    const { 
+      Button = "button" , 
+    } = (
+      this.props || {} 
+    ) ;
+    const {
+      blockingException = null ,
+    } = (
+      this.state || {}
+    ) ;
+    const bangingResetBtn = (
+      <Button 
+      type="button" 
+      onClick={() => this.setState({ blockingException: null, }) } 
+      >
+        !!!
+      </Button>
+    ) ;
     return (
-      ((this.state || {} ).e ? (
+      ( blockingException ? (
         <div> 
-          <Button type="button" onClick={() => this.setState({ e: null, }) } >
-            !!!
-          </Button>
+          <XStackTraceView value={blockingException } />
+          <p>{ bangingResetBtn }</p>
         </div>
       ) : null )
       || this.props.children
@@ -188,10 +227,45 @@ export class WithErrorbound extends React.Component<React.PropsWithChildren & Pa
   // componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
   //   console["error"](error , { error, errorInfo , } , ) ;
   // }
-  static getDerivedStateFromError(e: Error, ) {
-    return { e: e, } ;
+  static getDerivedStateFromError(e: Error, ): Partial<WithErrorbound["state"] > {
+    return { blockingException: e, } ;
   }
 }
+const XStackTraceView = (
+  SS.identity<(
+    React.FC<{ value: Error }>
+  )>(function XStackTraceViewImpl({ value: blockingException, }) {
+    const { cause = null, } = blockingException ;
+    return (
+      <div 
+      style={{ 
+        fontWeight: "bold", 
+        border: `0.1em solid currentcolor`,
+        borderRadius: `0.25em` ,
+        backgroundColor: "yellow", 
+        color: "black", 
+      }}
+      >
+        <header>
+        <p>
+          <code>{ blockingException.message }</code>
+        </p>
+        </header>
+        <pre>
+          { blockingException.stack }
+        </pre>
+        { cause ? (
+          <>
+          <p>cause:</p>
+          { (cause instanceof Error ) && (
+            <XStackTraceView value={cause } />
+          ) }
+          </>
+        ) : null }
+      </div>
+    ) ;
+  } )
+) ;
 export const useScan = (
   function <A>(...[f , { intervalMillis, } = { intervalMillis : 500, } ] : [
     main: () => A, 
@@ -210,6 +284,74 @@ export const useScan = (
     return v ;
   }
 ) ;
+/**   
+ * 
+ */
+export { useIntervalDispatch, } ;
+/**    
+ * use deferred allocation of a `close()`able.
+ * 
+ * @param reallocativeDependencies . if this changes, must re-allocate 
+ * @returns a (maintained) `A`, or `null` if alloc remains under progress
+ * 
+ */
+export const useDeferredCloseable = (
+  /**   
+   * 
+   */
+  function useDeferredResourceImpl<A extends { close(): void | true | Promise<unknown> ; } >(...[allocate, dependencies,] : [
+    reallocate: () => A ,
+    reallocativeDependencies: React.DependencyList ,
+  ] ) {
+    const [toBeReturned, setWhatToReturn] = (
+      React.useState<null | A >(null, )
+    ) ;
+    React["useEffect"](() => {
+      const r1 = (
+        allocate()
+      ) ;
+      setWhatToReturn(() => r1 )
+      return (
+        (): void => {
+          r1.close() ;
+        }
+      ) ;
+    } , dependencies , ) ;
+    React.useDebugValue({ 
+      toBeReturned, 
+      dependencies, 
+      ...(null ? { allocate, } : {} ) ,
+    }) ;
+    return toBeReturned ;
+  }
+) ;
+/**
+ * modified version of {@link React.useId}
+ * 
+ */
+export const useId = (
+  function () {
+    const id0 = (
+      React.useId()
+    ) ;
+    return (
+      Array.from(id0 )
+      .map(c => (
+        c.match(/\W/) ?
+        c.charCodeAt(0)
+        : c
+      ) )
+      .join("") 
+      // otherwise, will not get picked up
+      .replace(/^/, () => "elem-" )
+    ) ;
+  }
+) ;
+// TODO
+export {
+  useHtmlElementImperativeHandleAbs ,
+} from "library/useHtmlElemImperativeHandle1" ;
+export * as DOM from "react-dom" ;
 
 
 
