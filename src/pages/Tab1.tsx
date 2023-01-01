@@ -1,3 +1,7 @@
+
+
+/* eslint-disable import/first, @typescript-eslint/no-unused-vars    */
+
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Tab1.css';
