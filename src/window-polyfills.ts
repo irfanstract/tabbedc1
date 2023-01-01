@@ -10,128 +10,74 @@ import Immutable from "immutable";
 
 
 
-declare global {
-   interface Array<T> {
-      toImmutableSeq() : Immutable.Seq.Indexed<T> ;
-      toImmutableList() : Immutable.List<T> ;
-   }
-}
-Array.prototype.toImmutableSeq = (
-   function () {
-      return (
-         Immutable.Seq(this)
-      ) ;
-   }
-) ;
-Array.prototype.toImmutableList = (
-   function () {
-      return (
-         Immutable.List(this)
-      ) ;
-   }
-) ;
-;
-declare global {
-   interface Array<T> {
-      reversed() : Array<T> ;
-   }
-}
-Array.prototype.reversed = (
-   function () {
-      return (
-         this
-         .map((v, i, src, ) => (
-            src[(src.length + -1 ) + -i ]
-         ) )
-      ) ;
-   }
-) ;
-declare global {
-   interface Array<T> {
-      appendedAllAsync<E1>(s: AsyncGenerator<E1, void>, ) : Promise<(T | E1)[] > ;
-   }
-}
-Array.prototype.appendedAllAsync = (
-   async function <E1,  >(s: AsyncGenerator<E1, void>, ) {
-      const addedBuf = new Array<E1>;
-      for await (const f of s ) {
-         addedBuf.push(f, ) ;
-         ;
-      }
-      ;
-      return [...this, ...addedBuf,] ;
-   }
-) ;
-declare global {
-   interface Array<T> {
-      asyncMap<E1>(s: (v: T, i: number, ) => Promise<E1 >, ) : Promise<(E1)[] > ;
-   }
-}
-Array.prototype.asyncMap = (
-   async function<E1, T>(this: Array<T>, s: (v: T, i: number, ) => Promise<E1>, ) {
-      return (
-         await Promise.all(this.map(s, ) )
-      ) ;
-   }
-) ;
-declare global {
-   interface ArrayConstructor { 
-      unfold<A, S>(v0: A, digest: { (v0: A) : null | [s: A, emit: S, ] ; } ) : S[] ;
-   }
-}
-// Array.unfold<boolean | number | object >(8, (v) => v ) ;
-;
-declare global {
-   interface ReadonlyArray<T> extends RMAE<T, ReadonlyArray<T> > {
-      map<A2>(this: ReadonlyArray<T> & Readonly<[unknown,               ]>, map: (...args: [val: T, i: number, ] ) => A2 ) : [A2,     ] ;
-      map<A2>(this: ReadonlyArray<T> & Readonly<[unknown,unknown        ]>, map: (...args: [val: T, i: number, ] ) => A2 ) : [A2,A2   ] ;
-      map<A2>(this: ReadonlyArray<T> & Readonly<[unknown,unknown,unknown]>, map: (...args: [val: T, i: number, ] ) => A2 ) : [A2,A2,A2] ;
-   }
-   interface Array<T> extends RMAE<T, Array<T>> {
-      map<A2>(this: ReadonlyArray<T> & Readonly<[unknown,               ]>, map: (...args: [val: T, i: number, ] ) => A2 ) : [A2,     ] ;
-      map<A2>(this: ReadonlyArray<T> & Readonly<[unknown,unknown        ]>, map: (...args: [val: T, i: number, ] ) => A2 ) : [A2,A2   ] ;
-      map<A2>(this: ReadonlyArray<T> & Readonly<[unknown,unknown,unknown]>, map: (...args: [val: T, i: number, ] ) => A2 ) : [A2,A2,A2] ;
-   }
-}
-interface RMAE<T, M extends ReadonlyArray<T >> {
-   map<A2>(this: M & Readonly<[unknown,               ]>, map: (...args: [val: T, i: number, ] ) => A2 ) : [A2,     ] ;
-   map<A2>(this: M & Readonly<[unknown,unknown        ]>, map: (...args: [val: T, i: number, ] ) => A2 ) : [A2,A2   ] ;
-   map<A2>(this: M & Readonly<[unknown,unknown,unknown]>, map: (...args: [val: T, i: number, ] ) => A2 ) : [A2,A2,A2] ;
-};
+/**   
+ * FOR DEVS :
+ * DO NOT REMPVE THIS IMPORT because
+ * doing so defeats the purpose of this module !!!
+ */
+import {
+   L0To64 ,
+   RMAE ,
+} from "library/global/general" ;
 
-declare global {
-   interface Promise<T> {
-      xFinally<A2 extends void>(f: () => Promise<A2> ): Promise<T> ;
-   }
-}
-Promise.prototype.xFinally = (
-   async function <A2 extends void, T>(f: () => Promise<A2> ): Promise<T> {
-      try {
-         return (
-            await this 
+/**   
+ * fix for browser-level bugs for {@link SVGGraphicsElement}
+ * 
+ * the updated specification specifies the return-values to be {@link DOMMatrix}, but
+ * in practice these two methods gave {@link SVGMatrix }es instead .
+ * 
+ */
+{
+   console["log"](SVGMatrix.prototype.__proto__ ) ;
+   const polyfilled1 = (
+      function <Args extends unknown[]>(method: (this: SVGGraphicsElement, ...argumentes: Args ) => (SVGTransform | DOMMatrix | null ) ) {
+         const newImpl = (
+            function xxGetSvgMatrix(this: SVGGraphicsElement , ...args: Args ): DOMMatrix | null { 
+               const originalReturnValue = (
+                  method.call(this, ...args )
+               ) ;
+               console["log"]({ this: this, args, v0: originalReturnValue, }) ; 
+               return (
+                  originalReturnValue ?
+                  (
+                     (originalReturnValue instanceof DOMMatrix) ?
+                     originalReturnValue
+                     : (() => {
+                        /** {@link v0.matrix } spuriously returned nulls */
+                        return (
+                           Object.assign(new DOMMatrix(), originalReturnValue )
+                        ) ;
+                     } )()
+                  )
+                  : null
+               ) ;
+            }
          ) ;
-      } finally {
-         await f() ;
+         try {
+            ;
+            // newImpl.name = (
+            //    method.name + "Rechecked"
+            // ) ;
+         } catch (z) {
+            console["error"](`unable to rename the function. will leave it unnamed or with its default name, which could make things harder.`, `the exception:`, ) ;
+            console["info"](z, ) ;
+         }
+         return (
+            newImpl
+         ) ;
       }
-   }
-) ;
-
-declare global {
-   interface Number {
-      toDigits<N extends L0To64, >(n: N, ): string ;
+   ) ;
+   try {
+      const { 
+         getCTM,
+         getScreenCTM,
+      } = SVGGraphicsElement.prototype ;
+      SVGGraphicsElement.prototype.getCTM       = polyfilled1(getCTM      ) ;
+      SVGGraphicsElement.prototype.getScreenCTM = polyfilled1(getScreenCTM) ;
+   } catch (z) {
+      console["error"](z, ) ;
    }
 }
-Number.prototype.toDigits = (
-   function (n: number) {
-      // TODO
-      return (
-         this
-         .toFixed()
-         .padStart(n, "0", )
-      ) ;
-   }
-) ;
-import { L0To64, } from "library/util/l16";
 
 
 
