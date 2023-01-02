@@ -1,6 +1,11 @@
 
 /* eslint-disable import/first, @typescript-eslint/no-unused-vars    */
 
+/**   
+ * this TS/TSX file is to be `import`ed by `src/index.tsx`.
+ * this TS/TSX file is intended to make relevant polyfills to the built-in obj(s).
+ * 
+ */
 import Immutable from "immutable";
 
 
