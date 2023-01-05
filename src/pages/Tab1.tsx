@@ -15,6 +15,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/rea
 import * as Ion from "library/useIonicUi1" ;
 
 /** Components */
+import * as Components from "components/AllComponents" ;
 import ExploreContainer from '../components/ExploreContainer';
 import CurrentDateTime1 from 'components/CurrentDateTime1';
 import UebR from 'components/UebR';
@@ -51,6 +52,8 @@ const Tab1: React.FC = () => {
           { xpxs }
           { fsmt }
         </div>
+        <Components.FileOpenBtnDemoC  
+        />
         <ExploreContainer name="Tab 1 page" />
         <CurrentDateTime1 />
         { null && (
