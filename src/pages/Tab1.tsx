@@ -52,6 +52,8 @@ const Tab1: React.FC = () => {
           { xpxs }
           { fsmt }
         </div>
+        <Components.FileOpenBtnDemoC  
+        />
         <ExploreContainer name="Tab 1 page" />
         <CurrentDateTime1 />
         { null && (
