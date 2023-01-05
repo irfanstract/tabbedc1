@@ -251,6 +251,55 @@ interface EWA0<Args extends [main: null | {}, options ?: object,], R extends {}>
     )) => null | R
   ) ;
 } ;
+export const {
+  GMeasuringC ,
+  useGMeasCRefDemo ,
+} = (() => {
+  type R = { clientScale: number ; } ;
+  return {
+    useGMeasCRefDemo: () => (
+      React.useCallback((
+        function GMeasCRefDemo(v: null | R ): void { 
+          console["log"](GMeasCRefDemo.name, v, ) ;
+        }
+      ) , [] )
+    ) ,
+    GMeasuringC: (
+      React.forwardRef((
+        SS.identity<(
+          React.ForwardRefRenderFunction<null | R , {} >
+        )>(function GMeasuringCImpl({} , clientRef : React.Ref<R | null> ) {
+          const ref1 = (
+            React.useState<(
+              null | SVGGraphicsElement
+            )>(null )
+          ) ;
+          const [refed, _ ] = ref1 ;
+          React["useMemo"](() => {
+            console["log"]({ refed }) ;
+          } , [refed,] ) ;
+          const {
+            width: refedClientWIdth = null ,
+          } = (
+            (refed && refed.getBBox() )
+            || {}
+          ) ;
+          React.useImperativeHandle(clientRef, () => (
+            (typeof refedClientWIdth === "number") ?
+            { clientScale: refedClientWIdth , }
+            : null
+          ) , [refedClientWIdth ,] ) ;
+          return (
+            <rect 
+            ref={ref1[1] }  
+            {...{ width: 1, height: 1, }}
+            />
+          ) ;
+        } )
+      ))
+    ) ,
+  } ;
+} )() ;
 
 
 
