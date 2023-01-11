@@ -13,6 +13,11 @@ import Immutable from "immutable";
 
 
 declare global {
+   type Exactly<A> = A ; 
+   type ExactlyNonNull<A extends {}> = A ; 
+} 
+
+declare global {
    interface Object {
       __proto__ ?: null | {} ;
    }
