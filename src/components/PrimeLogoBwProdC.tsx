@@ -133,10 +133,10 @@ const xpxs = (
 
     }) ;
     const {
-      simpleCircleDef1
-    } = xcm({
-      simpleCircleDef1: (
-        withAttachment(({ assignedId, }) => (
+      simpleCircleDef1C  
+    } = ({
+      simpleCircleDef1C: (
+        withAttachmentC(({ assignedId, }) => (
           <circle 
           id={assignedId }
           {...{ cx: 64, cy: 64, r: 32, }} 
@@ -318,7 +318,6 @@ const xpxs = (
         </g>
       </g>
       <>
-      { (simpleCircleDef1)[1] }
       { (gradAttachment1 )[1] }
       { (pattern1        )[1] }
       { (rect3           )[1] }
