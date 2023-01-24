@@ -115,11 +115,11 @@ const xpxs = (
       }>(a: A, ) => a
     ) ;
     const { 
-      gradAttachment1,  
-    } = xcm({
+      gradAttachment1C,  
+    } = ({
       
-      gradAttachment1: (
-        withAttachment(({ assignedId, }) => (
+      gradAttachment1C: (
+        withAttachmentC(({ assignedId, }) => (
           <linearGradient id={assignedId } direction={`0deg`}> 
           <stop offset={`${  0}%`} stop-color="#0000C0" />
           <stop offset={`${100}%`} stop-color="#8000C0" />
@@ -214,7 +214,7 @@ const xpxs = (
           <g
           id={assignedId }
           style={{  
-            fill: `url(${gradAttachment1[0].href }) ` ,
+            fill: `url(${gradAttachment1C.href }) ` ,
           }}
           >
           { (
@@ -300,7 +300,7 @@ const xpxs = (
           >
             <rect
             {...{ width: 600, height: 300, }}
-            fill={`url(${gradAttachment1[0].href })` }
+            fill={`url(${gradAttachment1C.href })` }
             />
           </g>
         </g>
@@ -316,7 +316,6 @@ const xpxs = (
         </g>
       </g>
       <>
-      { (gradAttachment1 )[1] }
       { (pattern1        )[1] }
       { (rect3           )[1] }
       </>
