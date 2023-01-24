@@ -39,7 +39,19 @@ const xpxs = (
     ...{ } ,
   }}
   > 
-  { ({ withAttachment, withAttachmentAll1 = null, componentId: componentId, }) => (
+  { ({ 
+    
+    //
+    withAttachment, 
+    withAttachmentAll1 = null, 
+    //
+    withAttachmentC ,
+    asClippedC ,
+    
+    //
+    componentId: componentId, 
+
+  }) => (
   <React.Fragment>
   { (
     /**   
