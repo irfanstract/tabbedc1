@@ -31,11 +31,15 @@ const WithSectionSpecificsC = (() => {
     (e: React.ReactElement): React.ReactElement ;
     (e: React.ReactElement | null): React.ReactElement | null ;
   } ;
+  type PayloadCtx = (
+    {} 
+    & FocusedHoveredProps & { asLocal : AsLocalElement ; }
+  ) ;
   return (
     SS.identity<(
       React.FC<(
         {} 
-        & { children: (ctx: {} & FocusedHoveredProps & { asLocal : AsLocalElement ; } ) => React.ReactElement ; }
+        & { children: (ctx: PayloadCtx ) => React.ReactElement ; }
       )> 
     )>(function BoundarySpecificC({ children: payload, }) {
       const eRef = (
