@@ -25,6 +25,7 @@ import { OosDemo, } from 'components/OverlayOrSequencer/f1';
 import { CmC, } from 'components/Tl1';
 import { xpxs, } from "components/PrimeLogo";
 import fsmt from "components/MetroFshExpoBanner";
+import BeepButton from "components/BeepButton";
 
 /** CSS Imports */
 import './Tab1.css';
