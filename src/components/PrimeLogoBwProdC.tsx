@@ -206,11 +206,11 @@ const xpxs = (
       ) ,
     }) ;
     const { 
-      pattern1,
-    } = xcm({
+      pattern1C,
+    } = ({
       
-      pattern1 : (
-        withAttachment(({ assignedId }) => (
+      pattern1C : (
+        withAttachmentC(({ assignedId }) => (
           <g
           id={assignedId }
           style={{  
@@ -295,7 +295,7 @@ const xpxs = (
           mask={(
             // `url(${pattern1[0].href }P)` 
             // `url(${simpleCircleDef1[0].href }P)` 
-            `url(${pattern1[0].href }P)` 
+            `url(${pattern1C.href }P)` 
           )}
           >
             <rect
@@ -316,7 +316,6 @@ const xpxs = (
         </g>
       </g>
       <>
-      { (pattern1        )[1] }
       { (rect3           )[1] }
       </>
       </>
