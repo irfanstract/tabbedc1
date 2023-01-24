@@ -63,6 +63,7 @@ const Tab1: React.FC = () => {
         </React.Fragment>
         ) }
         <SdlsdDemo />
+        <BeepButton />
         <CmC />
       </IonContent>
     </IonPage>
