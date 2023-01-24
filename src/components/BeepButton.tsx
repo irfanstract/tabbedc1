@@ -41,28 +41,7 @@ export default (
         const c = (
           getAudioCtx(e.nativeEvent)
         ) ;
-        const g1 = (
-          new (class extends GainNode {
-            constructor() {
-              super(c) ;
-              this.gain.setValueAtTime(2 ** -4, 0, ) ;
-            }
-          } )
-        ) ;
-        const o2 = (
-          new (class extends OscillatorNode {
-            constructor() {
-              super(c) ;
-              (
-                this.frequency
-                .setValueAtTime(440, 0, )
-              ) ;
-            }
-          } )
-        ) ;
-        o2.connect(g1 ).connect(c.destination ) ;
-        o2.start(c.currentTime ) ;
-        o2.stop(c.currentTime + 0.5 ) ;
+        makeBeepOnGivenCtx(c, ) ;
       } }
       />
     ) ;
