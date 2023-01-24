@@ -146,10 +146,10 @@ const xpxs = (
       ) ,
     }) ;
     const {
-      xBwTxtDef ,
-    } = xcm({
-      xBwTxtDef : (
-        withAttachment(({ assignedId, }) => {
+      xBwTxtDefC ,
+    } = ({
+      xBwTxtDefC : (
+        withAttachmentC(({ assignedId, }) => {
         ;
         const main = (
           <g >     
@@ -264,7 +264,7 @@ const xpxs = (
                           }}
                           >
                             <use 
-                            href={`${xBwTxtDef[0].href }` }
+                            href={`${xBwTxtDefC.href }` }
                             />
                           </g>
                         </g>
@@ -320,7 +320,6 @@ const xpxs = (
       { (gradAttachment1 )[1] }
       { (pattern1        )[1] }
       { (rect3           )[1] }
-      { (xBwTxtDef       )[1] }
       </>
       </>
     ) ;
