@@ -23,7 +23,7 @@ import * as Ion from "library/useIonicUi1" ;
 
 
 
-const XBoundarySpecificC = (() => {
+const WithSectionSpecificsC = (() => {
   type FocusedHoveredProps = (
     { focused: boolean ; hovered: boolean ; }
   ) ;
@@ -112,7 +112,7 @@ const XBoundarySpecificC = (() => {
 
 
 export default (
-  XBoundarySpecificC
+  WithSectionSpecificsC
 ) ;
 
 
