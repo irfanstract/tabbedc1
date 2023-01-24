@@ -149,8 +149,10 @@ const xpxs = (
       xBwTxtDef ,
     } = xcm({
       xBwTxtDef : (
-        withAttachment(({ assignedId, }) => (
-          <g id={assignedId }>     
+        withAttachment(({ assignedId, }) => {
+        ;
+        const main = (
+          <g >     
           <g
           style={{
             transform: ( 
@@ -180,7 +182,25 @@ const xpxs = (
           </g>
           </g>
           </g>
-        ) , { assignedId: "xBwLogoDef", } )
+        ) ;
+        return (
+          <g id={assignedId }>    
+          { (
+            asClippedC([
+              main ,
+              { clippingGraph: (
+                <g transform="scale(1, -1) " >
+                <rect 
+                {...{ width: 512, height: 512, } }
+                />
+                </g>
+              ) , } ,
+            ] , { id: "xBwLogoDefImpl" } )
+            || <></>
+          ) }
+          </g>
+        ) ;
+        } , { assignedId: "xBwLogoDef", } )
         || 
         [{ href: "#unresolved", }, null ]
       ) ,
