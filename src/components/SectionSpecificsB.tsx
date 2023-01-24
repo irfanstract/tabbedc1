@@ -24,6 +24,10 @@ import * as Ion from "library/useIonicUi1" ;
 
 
 const WithSectionSpecificsC = (() => {
+  /**   
+   * defines these two properties.
+   * 
+   */
   type FocusedHoveredProps = (
     { focused: boolean ; hovered: boolean ; }
   ) ;
