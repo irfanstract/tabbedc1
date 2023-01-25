@@ -16,13 +16,7 @@
  * 
  */
 type EitherBothSetOrBothUnset<A extends {} > = (
-   A | { [k in keyof A ] ?: never ; }
-   
-   /**   
-    * every *key* must consistently appear in every *alternative*, for two reasons:
-    * - otherwise, the resulting type will be considered to omit the key
-    * - to become `[key] ?: never ;`, which is the heart of all these
-    */
+   globalThis.EitherBothSetOrBothUnset<A>
 ) ;
 namespace EitherBothSetOrBothUnset { ; } // TS-1205
 /**   
@@ -38,18 +32,7 @@ namespace EitherBothSetOrBothUnset { ; } // TS-1205
 * 
 */
 type EitherSetAndOthersUnset<A extends {} > = (
-   /**   
-    * every *key* must consistently appear in every *alternative*, for two reasons:
-    * - otherwise, the resulting type will be considered to omit the key
-    * - to become `[key] ?: never ;`, which is the hart of all these
-    */
-   { 
-      [whichToRequire in keyof A ] : (
-         { [k in whichToRequire ] -?: A[k] ; }
-         &
-         { [k in keyof Omit<A, whichToRequire > ] ?: never ; }
-      ) ;
-}[keyof A ]
+   globalThis.EitherSetAndOthersUnset<A>
 ) ;
 const EitherSetAndOthersUnset = {} ; // TS-1205
 /**   
@@ -58,9 +41,7 @@ const EitherSetAndOthersUnset = {} ; // TS-1205
 * (b) all (left) unset 
 */
 type EitherSetOrBothUnset<A extends {} > = (
-   EitherSetAndOthersUnset<A> // obviously - allow cases of exact one property set
-   | 
-   { [k in keyof A ] ?: never ; } // allow cases where none set
+   globalThis.EitherSetOrBothUnset<A>
 ) ;
 const EitherSetOrBothUnset = {} ; // TS-1205
 
