@@ -27,6 +27,8 @@ export {} ;
 
 import { getInstance as getAudioCtx, } from "library/audioctx/sharedInstance";
 import makeBeepOnGivenCtx from "library/audioctx/makeBeepOnGivenCtx";
+import { makeBassDrumKickSound     , } from "library/audioctx/makeBassDropSoundCd";
+import { makeBassDropSound         , } from "library/audioctx/makeBassDropSoundCd";
 
 
 
@@ -42,6 +44,44 @@ export default (
           getAudioCtx(e.nativeEvent)
         ) ;
         makeBeepOnGivenCtx(c, ) ;
+      } }
+      />
+    ) ;
+    return (
+      mainButton1
+    ) ;
+  }
+) ;
+export const BassDrumKickSoundButtonC = (
+  function BassDrumKickSoundButtonCImpl() {
+    const mainButton1 = (
+      <Ion.Button 
+      children={"Kick"}
+      type="button"
+      onClick={async (e) => {
+        const c = (
+          getAudioCtx(e.nativeEvent)
+        ) ;
+        makeBassDrumKickSound({ c, d: c.destination, }, ) ;
+      } }
+      />
+    ) ;
+    return (
+      mainButton1
+    ) ;
+  }
+) ;
+export const BassDropButtonC = (
+  function BassDropButtonCImpl() {
+    const mainButton1 = (
+      <Ion.Button 
+      children={"Bass Drop"}
+      type="button"
+      onClick={async (e) => {
+        const c = (
+          getAudioCtx(e.nativeEvent)
+        ) ;
+        makeBassDropSound({ c, d: c.destination, }, { startFreq: (2 ** (6 / 12) * 55 ), finalFreq: 45, } ) ;
       } }
       />
     ) ;
