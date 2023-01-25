@@ -66,6 +66,8 @@ const Tab1: React.FC = () => {
         ) }
         <SdlsdDemo />
         <BeepButton />
+        <BassDrumKickSoundButtonC />
+        <BassDropButtonC />
         <CmC />
       </IonContent>
     </IonPage>
