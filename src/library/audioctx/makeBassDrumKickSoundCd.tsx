@@ -27,25 +27,71 @@ export {} ;
 
 
 
+type CtxAndDest = { 
+  c: BaseAudioContext ; 
+  d: AudioNode | AudioParam ; 
+} ;
+const CtxAndDest = {} ;
+type  CtxTSpecifier           = { tInCtx      : number      ; } ; 
+const CtxTSpecifier           = {  } ; 
+type  AmpFactorSpecifier      = { ampF        : number      ; } ;
+const AmpFactorSpecifier      = {  } ; 
+type  DurationalSpecifier     = { duration    : number      ; } ; 
+const DurationalSpecifier     = {  } ; 
+let defaultBassDropAmpFac: number = (
+  2 ** -2
+) ;
 export default (
   SS.identity<{
-    (ctx: { c: BaseAudioContext ; d: AudioNode | AudioParam ; } ) : void ;
+    (ctx: CtxAndDest ) : void ;
   }>(function implMakeBassDrumKickSound({
     c,
     d,
   }) {
     ;
-    const duration = (
-      2.5
+    return (
+      makeBassDropSound({ 
+        c, d, 
+      } , { 
+        duration: 0.5 , 
+        ampF: (2 ** 0.625) * defaultBassDropAmpFac , 
+        finalFreq: 45 ,
+        startFreq: 65 ,
+      } )
     ) ;
-    const t1 = (
-      c.currentTime
-    ) ;
+  } )
+) ;
+export const makeBassDropSound = (
+  SS.identity<{
+    (...args : [
+      ctx: (
+        {}
+        & CtxAndDest
+        & Partial<CtxTSpecifier>
+      ) ,
+      dp ?: (
+        {}
+        & Partial<AmpFactorSpecifier>
+        & Partial<DurationalSpecifier>
+        & EitherBothSetOrBothUnset<{ finalFreq: number ; startFreq: number ; }>
+      ) ,
+    ] ) : void ;
+  }>(function implMakeBassDropSound({
+    c,
+    d,
+    tInCtx: t1 = c.currentTime ,
+  } , {
+    duration = 4 ,
+    ampF = defaultBassDropAmpFac ,
+    finalFreq = 55 ,
+    startFreq = (2 ** (6/12 ) ) * finalFreq ,
+  } = {} ) {
+    ;
     const amp1 = (
       new (class extends GainNode {
         constructor() {
           super(c) ;
-          this.gain.setValueAtTime(2 ** -3, 0, ) ;
+          this.gain.setValueAtTime(ampF, 0, ) ;
         }
       } )
     ) ;
@@ -75,17 +121,17 @@ export default (
           super(c) ;
           (
             this.frequency
-            .setValueAtTime(55, 0, )
+            .setValueAtTime(finalFreq, 0, )
           ) ;
           (
             this.detune
-            .setValueAtTime(6 * 100, 0, )
+            .setValueAtTime(new (class { semitones !: number ; constructor(public octaves: number) { this.semitones = octaves * 12 ; } ; } )(Math.log2(startFreq / finalFreq ) ).semitones * 100 , 0, )
           ) ;
           if (1) {
             {
               (
                 this.detune
-                .setValueAtTime(6 * 100, t1, )
+                .setValueAtTime(new (class { semitones !: number ; constructor(public octaves: number) { this.semitones = octaves * 12 ; } ; } )(Math.log2(startFreq / finalFreq ) ).semitones * 100, t1, )
               ) ;
               (
                 this.detune
