@@ -44,7 +44,18 @@ export default (
         const c = (
           getAudioCtx(e.nativeEvent)
         ) ;
-        makeBeepOnGivenCtx(c, ) ;
+        {
+          const c1 = (
+            forAudioCtx({ ctx: c, dest: c.destination, }) 
+          ) ;
+          c1.gainParam.setValueAtTime(2 ** -4, 0, ) ;
+          const o2 = (
+            c1[START_NEW_OSCILLATOR](SNO.OSC.of({ waveType: "triangle", }) , )
+          ) ;
+          o2.frequency.setValueAtTime(440, c1.currentTime ) ;
+          o2.frequency.exponentialRampToValueAtTime(220, c1.currentTime + 1 ) ;
+          setTimeout(() => { c1.close() ; } , 2.5 * 1000 );
+        }
       } }
       />
     ) ;
