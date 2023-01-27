@@ -69,6 +69,22 @@ namespace XWith {
       & XBaseOps 
       & Pick<OscillatorNode, "frequency" | "detune">
     ) ;
+    /**    
+     * whitenoise without any implied filtering.
+     * 
+     */
+    startTechnicalWhiteNoise(): (
+      {}
+      & XBaseOps
+    ) ;
+    /**    
+     * whitenoise with possible implied filtering.
+     * 
+     */
+    startPracticalWhiteNoise(): (
+      {}
+      & XBaseOps
+    ) ;
     
   } 
   ;
@@ -123,6 +139,22 @@ export const forAudioCtx = (() => {
               ) ; 
             })
           ) ;
+          startTechnicalWhiteNoise() {
+            return (
+              startNewWhiteNoiseNode({
+                ctx ,
+                dest: gn0 ,
+              })
+            ) ; 
+          }
+          startPracticalWhiteNoise() {
+            const nd1 = (
+              this.startTechnicalWhiteNoise()
+            ) ;
+            return (
+              nd1
+            ) ;
+          }
 
         } )
       ) ;
