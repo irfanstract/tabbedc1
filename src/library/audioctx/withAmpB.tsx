@@ -89,8 +89,16 @@ namespace XWith {
   } 
   ;
   export class WSM {
-    private constructor(public sm: AudioBuffer, public loop: boolean ,) {}
-    static of(p: WSM ): WSM { return new WSM(p.sm, p.loop, ) ; }
+    private constructor(
+      public sm: AudioBuffer, 
+      public loop: boolean ,
+    ) {}
+    static of(p: WSM ): WSM { 
+      return new WSM(
+        p.sm, 
+        p.loop, 
+      ) ; 
+    }
   } ;
   export class OSC {
     private constructor(public waveType: Exclude<OscillatorType, "custom"> | PeriodicWave,) {}
