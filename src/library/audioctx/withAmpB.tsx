@@ -186,6 +186,66 @@ export const forAudioCtx = (() => {
       throw TypeError(`'type' were ${type } `) ;
     } )
   ) ;
+  // TODO
+  const startNewWhiteNoiseNode = (
+    (() => {
+      const bufferForCtx = (
+        SS.memoize((ctx: BaseAudioContext) => (
+          (() => {
+            const ab1 = (
+              ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate)
+            ) ;
+            // TODO
+            {
+              ab1.copyToChannel((
+                Float32Array.from((
+                  Immutable.Range(0, ctx.sampleRate, 1)
+                  .map(() => Math.random() )
+                  .map(v => (-1 + (v * 2 ) ) )
+                ))
+              ), 0 ) ;
+            }
+            return (
+              ab1
+            ) ;
+          } )()
+        ))
+      ) ;
+      return (
+        SS.identity<(
+          (ctx: (
+            {}
+            & (Parameters<typeof main>[0] & {} )
+          ) ) => (
+            {}
+            & XWith.XBaseOps
+          )
+        )>(function ({
+          ctx ,
+          dest ,
+        }) {
+          const buffer1 = (
+            bufferForCtx(ctx )
+          ) ;
+          // TODO
+          {
+            return (
+              startNewOscillatorOrBufferSourced1({
+                ctx ,
+                dest ,
+                type: (
+                  XWith.WSM.of({
+                    loop: false ,
+                    sm: buffer1 ,
+                  })
+                ) ,
+              })
+            )
+          }
+        } )
+      ) ;
+    } )()
+  ) ;
   return main ;
 } )() ;
 export const START_NEW_OSCILLATOR = Symbol() ;
