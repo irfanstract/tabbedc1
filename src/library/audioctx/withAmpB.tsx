@@ -92,11 +92,13 @@ namespace XWith {
     private constructor(
       public sm: AudioBuffer, 
       public loop: boolean ,
+      public startT?: "calltime" | number ,
     ) {}
     static of(p: WSM ): WSM { 
       return new WSM(
         p.sm, 
         p.loop, 
+        p.startT ,
       ) ; 
     }
   } ;
@@ -183,6 +185,18 @@ export const forAudioCtx = (() => {
       // TODO
       ;
       if (type instanceof XWith.WSM ) {
+        const { startT: defaultedSpecifiedStartT = "calltime" , } = type ; 
+        const usedStartT = (
+          (() => { 
+            if (typeof defaultedSpecifiedStartT === "number") {
+              return defaultedSpecifiedStartT ; 
+            }
+            if (defaultedSpecifiedStartT === "calltime" ) { 
+              return ctx.currentTime ; 
+            } 
+            return defaultedSpecifiedStartT ; 
+          } )()
+        ) ;
         const o1 = ctx.createBufferSource() ;
         o1.loop = (
           type.loop
@@ -191,7 +205,7 @@ export const forAudioCtx = (() => {
           type.sm
         ) ;
         o1.connect(gn0 ) ;
-        o1.start(0) ;
+        o1.start(usedStartT ) ;
         ;
         return {
           close      : () => { o1.stop() ; } ,
