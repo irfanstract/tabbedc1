@@ -64,7 +64,11 @@ namespace XWith {
     /**   
      * {@link OscillatorNode } or {@link AudioBufferSourceNode }
      */
-    [START_NEW_OSCILLATOR](type: OSC| WSM ): {} & XBaseOps & Pick<OscillatorNode, "frequency" | "detune"> ;
+    [START_NEW_OSCILLATOR](type: OSC| WSM ): (
+      {} 
+      & XBaseOps 
+      & Pick<OscillatorNode, "frequency" | "detune">
+    ) ;
     
   } 
   ;
