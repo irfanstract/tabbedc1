@@ -313,7 +313,7 @@ export const forAudioCtx = (() => {
                 dest ,
                 type: (
                   XWith.WSM.of({
-                    loop: false ,
+                    loop: true ,
                     sm: buffer1 ,
                   })
                 ) ,
