@@ -70,6 +70,13 @@ namespace XWith {
      * {@link GainNode }
      */
     withVariableAmp(): CWA ;
+    withVariableBiquadFiltering : () => { 
+      main: CWA ; 
+      ctrls: (
+        {}
+        & Pick<BiquadFilterNode, "type" | "frequency" | "gain" | "Q">
+      ) ; 
+    } ;
     /**   
      * {@link OscillatorNode } or {@link AudioBufferSourceNode }
      */
@@ -163,6 +170,25 @@ export const forAudioCtx = (() => {
               })
             ) ;
           } 
+          withVariableBiquadFiltering : (
+            XWith.CWA["withVariableBiquadFiltering"]
+          ) = (
+            () => {
+              const bdFltNode1 = (
+                ctx.createBiquadFilter()
+              ) ;
+              bdFltNode1.connect(gn0) ;
+              return {
+                main: (
+                  forAudioCtx({
+                    ctx,
+                    dest: bdFltNode1 ,
+                  })
+                ) ,
+                ctrls: bdFltNode1 ,
+              } ;
+            }
+          ) ;
           startNewOscillator = (
             SS.identity<(
               XWith.CWA["startNewOscillator"] 
