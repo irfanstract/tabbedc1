@@ -35,7 +35,16 @@ namespace XWith {
   ;
   // mutually-recursive set of functions will not be able to use type-inference.
   export type XBaseOps = {
-    close(): void ;
+    close(
+      /**   
+       * this "properties" parameter is optional, but
+       * unless omitted, there will be obligatory properties.
+       */
+      properties ?: (
+        {}
+        & { t: number }
+      ) ,
+    ): void ;
   }
   /** 
    * defines
@@ -64,7 +73,11 @@ namespace XWith {
     /**   
      * {@link OscillatorNode } or {@link AudioBufferSourceNode }
      */
-    [START_NEW_OSCILLATOR](type: OSC| WSM ): (
+    startNewOscillator(properties: (
+      {}
+      & ScheduledSourceNodeStartSpec
+      & { type: OSC| WSM }
+    ) ): (
       {} 
       & XBaseOps 
       & Pick<OscillatorNode, "frequency" | "detune">
@@ -73,7 +86,10 @@ namespace XWith {
      * whitenoise without any implied filtering.
      * 
      */
-    startTechnicalWhiteNoise(): (
+    startTechnicalWhiteNoise(properties: (
+      {}
+      & ScheduledSourceNodeStartSpec
+    ) ): (
       {}
       & XBaseOps
     ) ;
@@ -81,24 +97,28 @@ namespace XWith {
      * whitenoise with possible implied filtering.
      * 
      */
-    startPracticalWhiteNoise(): (
+    startPracticalWhiteNoise(properties: (
+      Parameters<this["startTechnicalWhiteNoise"] >[0]
+    ) ): (
       {}
       & XBaseOps
     ) ;
     
   } 
+  export type ScheduledSourceNodeStartSpec = (
+    {}
+    & { startT : number ; }
+  ) ;
   ;
   export class WSM {
     private constructor(
       public sm: AudioBuffer, 
       public loop: boolean ,
-      public startT?: "calltime" | number ,
     ) {}
     static of(p: WSM ): WSM { 
       return new WSM(
         p.sm, 
         p.loop, 
-        p.startT ,
       ) ; 
     }
   } ;
@@ -121,9 +141,16 @@ export const forAudioCtx = (() => {
       return (
         new (class CwaImplForThatAudioCtx implements XWith.CWA {
           
-          close() {
-            gn0.disconnect() ;
-          }
+          close = (
+            SS.identity<XWith.CWA["close"]>((...[{
+              t = ctx.currentTime ,
+            } = {}] ) => {
+              if (1) {
+                gn0.gain.cancelScheduledValues(t, ) ;
+                gn0.gain.setValueAtTime(0, t + 0.005, ) ;
+              }
+            })
+          ) ;
           get currentTime() { return ctx.currentTime ; } ;
 
           gainParam = gn0.gain ;
@@ -136,12 +163,13 @@ export const forAudioCtx = (() => {
               })
             ) ;
           } 
-          [START_NEW_OSCILLATOR] = (
+          startNewOscillator = (
             SS.identity<(
-              XWith.CWA[typeof START_NEW_OSCILLATOR] 
-            )>(function (type) {
+              XWith.CWA["startNewOscillator"] 
+            )>(function ({ startT, type, }) {
               return (
                 startNewOscillatorOrBufferSourced1({
+                  startT ,
                   ctx ,
                   dest: gn0 ,
                   type ,
@@ -149,17 +177,22 @@ export const forAudioCtx = (() => {
               ) ; 
             })
           ) ;
-          startTechnicalWhiteNoise() {
+          startTechnicalWhiteNoise(...[
+            {
+              startT = ctx.currentTime ,
+            } ,
+          ] : Parameters<XWith.CWA["startTechnicalWhiteNoise"] > ) {
             return (
               startNewWhiteNoiseNode({
+                startT ,
                 ctx ,
                 dest: gn0 ,
               })
             ) ; 
           }
-          startPracticalWhiteNoise() {
+          startPracticalWhiteNoise(...args : Parameters<XWith.CWA["startPracticalWhiteNoise"] > ) {
             const nd1 = (
-              this.startTechnicalWhiteNoise()
+              this.startTechnicalWhiteNoise(...args )
             ) ;
             return (
               nd1
@@ -174,10 +207,11 @@ export const forAudioCtx = (() => {
     SS.identity<(
       (ctx: (
         {}
-        & (Parameters<typeof main>[0] & {} )
+        & SnwCommonArgs
         & { type : XWith.OSC | XWith.WSM ; }
-      ) ) => ReturnType<XWith.CWA[typeof START_NEW_OSCILLATOR]>
+      ) ) => ReturnType<XWith.CWA["startNewOscillator"]>
     )>(function startNewOscillatorImpl({
+      startT: usedStartT,
       ctx ,
       dest: gn0 ,
       type ,
@@ -185,18 +219,6 @@ export const forAudioCtx = (() => {
       // TODO
       ;
       if (type instanceof XWith.WSM ) {
-        const { startT: defaultedSpecifiedStartT = "calltime" , } = type ; 
-        const usedStartT = (
-          (() => { 
-            if (typeof defaultedSpecifiedStartT === "number") {
-              return defaultedSpecifiedStartT ; 
-            }
-            if (defaultedSpecifiedStartT === "calltime" ) { 
-              return ctx.currentTime ; 
-            } 
-            return defaultedSpecifiedStartT ; 
-          } )()
-        ) ;
         const o1 = ctx.createBufferSource() ;
         o1.loop = (
           type.loop
@@ -208,7 +230,7 @@ export const forAudioCtx = (() => {
         o1.start(usedStartT ) ;
         ;
         return {
-          close      : () => { o1.stop() ; } ,
+          close      : (...[{ t = ctx.currentTime, } = {}]) => { o1.stop(t) ; } ,
           frequency  : o1.playbackRate       ,
           detune     : o1.detune             ,
         } ;
@@ -230,9 +252,9 @@ export const forAudioCtx = (() => {
           }
         } )() ;
         o1.connect(gn0 ) ;
-        o1.start(0) ;
+        o1.start(usedStartT) ;
         return {
-          close      : () => { o1.stop() ; } ,
+          close      : (...[{ t = ctx.currentTime, } = {}]) => { o1.stop(t) ; } ,
           frequency  : o1.frequency          ,
           detune     : o1.detune             ,
         } ;
@@ -269,12 +291,13 @@ export const forAudioCtx = (() => {
         SS.identity<(
           (ctx: (
             {}
-            & (Parameters<typeof main>[0] & {} )
+            & SnwCommonArgs
           ) ) => (
             {}
             & XWith.XBaseOps
           )
         )>(function ({
+          startT: expectedStartT ,
           ctx ,
           dest ,
         }) {
@@ -285,6 +308,7 @@ export const forAudioCtx = (() => {
           {
             return (
               startNewOscillatorOrBufferSourced1({
+                startT: expectedStartT ,
                 ctx ,
                 dest ,
                 type: (
@@ -300,9 +324,13 @@ export const forAudioCtx = (() => {
       ) ;
     } )()
   ) ;
+  type SnwCommonArgs = (
+    {}
+    & { startT : number ; }
+    & (Parameters<typeof main>[0] & {} )
+  ) ;
   return main ;
 } )() ;
-export const START_NEW_OSCILLATOR = Symbol() ;
 export namespace SNO {
   export const WSM = XWith.WSM ;
   export const OSC = XWith.OSC ;
