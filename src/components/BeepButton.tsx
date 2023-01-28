@@ -47,7 +47,30 @@ export default (
         const c = (
           getAudioCtx(e.nativeEvent)
         ) ;
-        makeBeepOnGivenCtx(c, ) ;
+        {
+          const nd1 = (
+            forAudioCtx({
+              ctx: c , 
+              dest: c.destination ,
+            })
+          ) ;
+          nd1.gainParam.setValueAtTime(2 ** -3, 0 ) ;
+          const xt = (
+            nd1.currentTime
+          ) ;
+          {
+            const o2 = (
+              nd1.startNewOscillator({
+                startT: xt ,
+                type: SNO.OSC.of({ waveType: "triangle" , }) ,
+              })
+            ) ;
+            o2.frequency.setValueAtTime(440, 0, ) ;
+            o2.detune["setValueAtTime"         ]((   0  ) * 100 , (xt  +   0  ), ) ;
+            o2.detune["linearRampToValueAtTime"]((-  4  ) * 100 , (xt  +   0.5  ), ) ;
+            o2.close({ t: xt + 0.5 , }) ;
+          }
+        }
       } }
       />
     ) ;
