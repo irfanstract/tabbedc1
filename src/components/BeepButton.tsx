@@ -29,6 +29,10 @@ import { getInstance as getAudioCtx, } from "library/audioctx/sharedInstance";
 import makeBeepOnGivenCtx from "library/audioctx/makeBeepOnGivenCtx";
 import { makeBassDrumKickSound     , } from "library/audioctx/makeBassDropSoundCd";
 import { makeBassDropSound         , } from "library/audioctx/makeBassDropSoundCd";
+import { 
+  forAudioCtx, 
+  SNO, // needs to be imported, defines the necessary classes
+} from "library/audioctx/withAmpB";
 
 
 
