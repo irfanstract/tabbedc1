@@ -230,7 +230,7 @@ export const forAudioCtx = (() => {
         o1.start(usedStartT ) ;
         ;
         return {
-          close      : () => { o1.stop() ; } ,
+          close      : (...[{ t = ctx.currentTime, } = {}]) => { o1.stop(t) ; } ,
           frequency  : o1.playbackRate       ,
           detune     : o1.detune             ,
         } ;
@@ -254,7 +254,7 @@ export const forAudioCtx = (() => {
         o1.connect(gn0 ) ;
         o1.start(usedStartT) ;
         return {
-          close      : () => { o1.stop() ; } ,
+          close      : (...[{ t = ctx.currentTime, } = {}]) => { o1.stop(t) ; } ,
           frequency  : o1.frequency          ,
           detune     : o1.detune             ,
         } ;
