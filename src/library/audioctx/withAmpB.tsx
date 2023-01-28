@@ -149,7 +149,6 @@ export const forAudioCtx = (() => {
                 gn0.gain.cancelScheduledValues(t, ) ;
                 gn0.gain.setValueAtTime(0, t + 0.005, ) ;
               }
-              gn0.disconnect() ;
             })
           ) ;
           get currentTime() { return ctx.currentTime ; } ;
