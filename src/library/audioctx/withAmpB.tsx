@@ -217,17 +217,8 @@ export const forAudioCtx = (() => {
             ) ; 
           }
           startPracticalWhiteNoise(...args : Parameters<XWith.CWA["startPracticalWhiteNoise"] > ) {
-            const fltNd10 = (
-              this.withVariableBiquadFiltering()
-            ) ;
-            fltNd10.ctrls.type = "lowpass" ;
-            fltNd10.ctrls.frequency.setValueAtTime(600, 0 ) ;
-            const gainNd11 = (
-              (fltNd10.main).withVariableAmp()
-            ) ;
-            gainNd11.gainParam.setValueAtTime(2 ** 2, 0, ) ;
             const nd1 = (
-              gainNd11.startTechnicalWhiteNoise(...args )
+              this.startTechnicalWhiteNoise(...args )
             ) ;
             return (
               nd1
