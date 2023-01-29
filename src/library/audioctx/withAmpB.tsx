@@ -73,6 +73,8 @@ namespace XWith {
       }
     ) ;
 
+    startTapoffOnlyNd() : CWA ;
+
     // the derivations
     /**   
      * {@link GainNode }
@@ -233,6 +235,31 @@ export const forAudioCtx = (() => {
           ) ;
 
           gainParam = gn0.gain ;
+
+          startTapoffOnlyNd : XWith.CWA["startTapoffOnlyNd"] = (
+            () => {
+              const nd0 = (
+                this
+              ) ;
+              const mutedNd1 = (
+                nd0.withVariableAmp()
+              ) ;
+              mutedNd1.gainParam.setValueAtTime(0, 0 ) ;
+              /**   
+               * additional Node becomes necessary
+               * because 
+               * the Gain setting on the previously-initialised Node 
+               * would additionally mute the tapoff from that
+               * 
+               */
+              const nd2 = (
+                mutedNd1.withVariableAmp()
+              ) ;
+              return (
+                nd2
+              ) ;
+            }
+          ) ;
 
           withVariableAmp() { 
             return (
