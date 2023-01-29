@@ -58,6 +58,7 @@ export default (
           const xt = (
             nd1.currentTime
           ) ;
+          const duration = 2.5 ;
           {
             const o2 = (
               nd1.startNewOscillator({
@@ -68,7 +69,19 @@ export default (
             o2.frequency.setValueAtTime(440, 0, ) ;
             o2.detune["setValueAtTime"         ]((   0  ) * 100 , (xt  +   0  ), ) ;
             o2.detune["linearRampToValueAtTime"]((-  4  ) * 100 , (xt  +   0.5  ), ) ;
-            o2.close({ t: xt + 0.5 , }) ;
+            o2.close({ t: xt + duration , }) ;
+          }
+          {
+            const nd31 = (
+              nd1.withVariableAmp()
+            ) ;
+            nd31.gainParam.setValueAtTime(2 ** -0.5 , 0, ) ;
+            const o3 = (
+              nd31.startPracticalWhiteNoise({
+                startT: xt ,
+              })
+            ) ;
+            o3.close({ t: xt + duration + 0.5 , }) ;
           }
         }
       } }
