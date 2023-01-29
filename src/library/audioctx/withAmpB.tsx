@@ -143,8 +143,44 @@ export const forAudioCtx = (() => {
       & XWith.XBaseOps
       & XWith.CWA 
     ) {
-      const gn0 = ctx.createGain() ;
-      gn0.connect(dest) ;
+      const {
+        //
+        tapOutPt: tapOutNd ,
+        gn0 ,
+        asFeedinPt: asInputNd ,
+        implDisconnectFromDestImmediately ,
+      } = (
+        ((): (
+          {}
+          & {
+            tapOutPt: Pick<AudioNode, "connect" | "disconnect"> ;
+            gn0: Pick<GainNode, "gain">;
+            asFeedinPt: AudioNode | AudioParam ;
+            implDisconnectFromDestImmediately: () => void;
+          }
+        ) => {
+          ;
+          const tapOutNd = ctx.createGain() ;
+          const gn0 = ctx.createGain() ;
+          gn0.connect(dest) ;
+          gn0.connect(tapOutNd) ;
+          const asInputNd = (
+            gn0
+          ) ;
+          const implDisconnectFromDestImmediately = (
+            function (): void {
+              gn0.disconnect() ;
+            }
+          ) ;
+          ;
+          return {
+            tapOutPt: tapOutNd ,
+            gn0 ,
+            asFeedinPt: asInputNd ,
+            implDisconnectFromDestImmediately ,
+          } ;
+        } )()
+      ) ;
       return (
         new (class CwaImplForThatAudioCtx implements XWith.CWA {
           
@@ -166,7 +202,7 @@ export const forAudioCtx = (() => {
             return (
               forAudioCtx({
                 ctx,
-                dest: gn0 ,
+                dest: asInputNd ,
               })
             ) ;
           } 
@@ -177,7 +213,7 @@ export const forAudioCtx = (() => {
               const bdFltNode1 = (
                 ctx.createBiquadFilter()
               ) ;
-              bdFltNode1.connect(gn0) ;
+              bdFltNode1.connect(asInputNd) ;
               return {
                 main: (
                   forAudioCtx({
@@ -197,7 +233,7 @@ export const forAudioCtx = (() => {
                 startNewOscillatorOrBufferSourced1({
                   startT ,
                   ctx ,
-                  dest: gn0 ,
+                  dest: asInputNd ,
                   type ,
                 })
               ) ; 
@@ -212,7 +248,7 @@ export const forAudioCtx = (() => {
               startNewWhiteNoiseNode({
                 startT ,
                 ctx ,
-                dest: gn0 ,
+                dest: asInputNd ,
               })
             ) ; 
           }
