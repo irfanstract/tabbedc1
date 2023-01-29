@@ -192,6 +192,25 @@ export const forAudioCtx = (() => {
                 gn0.gain.cancelScheduledValues(t, ) ;
                 gn0.gain.setValueAtTime(0, t + 0.005, ) ;
               }
+              if (1) {
+                /**  
+                 * since `connect()` and `disconnect()` does not support scheduling,
+                 * we need to take care of it ourselves `-___-`
+                 * 
+                 */
+                (async () => {
+                  M: {
+                    for (;; await new Promise<void>(R => setTimeout(R, 500, ) ) ) {
+                      if ((
+                        t < ctx.currentTime
+                      )) {
+                        implDisconnectFromDestImmediately() ;
+                        break M ;
+                      }
+                    }
+                  }
+                } )() ;
+              }
             })
           ) ;
           get currentTime() { return ctx.currentTime ; } ;
