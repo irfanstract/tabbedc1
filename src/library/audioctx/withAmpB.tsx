@@ -65,6 +65,14 @@ namespace XWith {
      */
     gainParam : AudioParam ;
 
+    asReconnectible() : (
+      {}
+      & {
+        tapOutPt: Pick<AudioNode, "connect" | "disconnect"> ; 
+        asFeedinPt: AudioNode | AudioParam ;
+      }
+    ) ;
+
     // the derivations
     /**   
      * {@link GainNode }
@@ -214,6 +222,15 @@ export const forAudioCtx = (() => {
             })
           ) ;
           get currentTime() { return ctx.currentTime ; } ;
+
+          asReconnectible = (
+            () : ReturnType<XWith.CWA["asReconnectible"] > => {
+              return {
+                asFeedinPt     : asInputNd      ,
+                tapOutPt       : tapOutNd       ,
+              } ;
+            }
+          ) ;
 
           gainParam = gn0.gain ;
 
