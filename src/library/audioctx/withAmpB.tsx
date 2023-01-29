@@ -316,8 +316,38 @@ export const forAudioCtx = (() => {
             ) ; 
           }
           startPracticalWhiteNoise(...args : Parameters<XWith.CWA["startPracticalWhiteNoise"] > ) {
+            const ndDest2 = (
+              this
+            ) ;
+            const fltNd10 = (
+              ndDest2.withVariableBiquadFiltering()
+            ) ;
+            fltNd10.ctrls.type = "lowpass" ;
+            fltNd10.ctrls.frequency.setValueAtTime(600, 0 ) ;
+            const fltNd11 = (
+              ndDest2.withVariableBiquadFiltering()
+            ) ;
+            fltNd11.ctrls.type = "highpass" ;
+            fltNd11.ctrls.frequency.setValueAtTime(16100, 0 ) ;
+            const gainNd11 = (
+              (() => {
+                const xnd = this.startTapoffOnlyNd() ;
+                (
+                  [
+                    fltNd10.main ,
+                    fltNd11.main ,
+                  ]
+                  .forEach(dest => {
+                    ;
+                    xnd.asReconnectible().tapOutPt.connect(dest.asReconnectible().asFeedinPt ) ;
+                  } )
+                ) ;
+                return xnd ;
+              } )()
+            ) ;
+            gainNd11.gainParam.setValueAtTime(2 ** 0, 0, ) ;
             const nd1 = (
-              this.startTechnicalWhiteNoise(...args )
+              gainNd11.startTechnicalWhiteNoise(...args )
             ) ;
             return (
               nd1
