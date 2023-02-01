@@ -19,6 +19,12 @@
     "@types/react-dom": "^18.0.6",
     "@types/react-router": "^5.1.11",
     "@types/react-router-dom": "^5.1.7",
+    "immutable": "^4.1.0",
+    "jszip": "^3.10.1",
+    "lodash": "^4.17.21",
+    "@types/lodash": "^4.14.186",
+    "draft-js": "^0.11.7",
+    "@types/draft-js": "^0.11.9" ,
     "history": "^4.9.0",
     "ionicons": "^6.0.3",
     "react": "^18.2.0",
@@ -51,7 +57,12 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ] ,
+    "rules": {
+      "@typescript-eslint/no-unused-vars" : "off" ,
+      "no-extend-native" : "off" ,
+      "no-useless-rename": "off"
+    }
   },
   "browserslist": {
     "production": [

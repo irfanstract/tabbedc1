@@ -1,0 +1,22 @@
+
+
+
+
+.SdlsdDemoIXImg {
+  transition: all 0.5s ease-out ;
+}
+.SdlsdDemoIXImg {
+  margin: 0.75em ;
+  padding: 0.75em ;
+  transform: scale(calc(1 + var(--sdlsdixi) * 0.275 ) ) rotate(calc((var(--sdlsdixi) * 0.5 ) * 5deg ) ) ;
+  --sdlsdixi : 0 ;
+  filter: saturate(calc(0.5 + var(--sdlsdixi) ) ) drop-shadow(0 0 0.5em rgba(0 calc(var(--sdlsdixi) * 64 ) calc(var(--sdlsdixi) * 255 ) / 0.95 ) ) ;
+} 
+.SdlsdDemoIXImg:hover , 
+#----e {
+  --sdlsdixi : 0.5 ;
+} 
+.SdlsdDemoIXImg:focus-within ,
+#----e {
+  --sdlsdixi : 0.75 ;
+}
