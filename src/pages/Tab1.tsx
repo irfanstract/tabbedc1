@@ -50,6 +50,7 @@ const Tab1: React.FC = () => {
             <IonTitle size="large">Tab 1</IonTitle>
           </IonToolbar>
         </IonHeader>
+        { allowAnimatedContents && (
         <div 
         style={{
           display: "flex" ,
@@ -59,6 +60,7 @@ const Tab1: React.FC = () => {
           { xpxs }
           { fsmt }
         </div>
+        ) }
         <Components.FileOpenBtnDemoC  
         />
         <ExploreContainer name="Tab 1 page" />
