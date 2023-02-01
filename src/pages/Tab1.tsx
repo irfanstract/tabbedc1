@@ -25,11 +25,18 @@ import { OosDemo, } from 'components/OverlayOrSequencer/f1';
 import { CmC, } from 'components/Tl1';
 import { xpxs, } from "components/PrimeLogo";
 import fsmt from "components/MetroFshExpoBanner";
+import BeepButton from "components/BeepButton";
+import { BassDropButtonC, } from "components/BeepButton";
+import { BassDrumKickSoundButtonC, } from "components/BeepButton";
 
 /** CSS Imports */
 import './Tab1.css';
 
 const Tab1: React.FC = () => {
+  const [
+    allowAnimatedContents ,
+    setAllowAnimatedContents ,
+  ] = React.useState<boolean>(false, ) ;
   return (
     <IonPage>
       <IonHeader>
@@ -43,6 +50,7 @@ const Tab1: React.FC = () => {
             <IonTitle size="large">Tab 1</IonTitle>
           </IonToolbar>
         </IonHeader>
+        { allowAnimatedContents && (
         <div 
         style={{
           display: "flex" ,
@@ -52,17 +60,25 @@ const Tab1: React.FC = () => {
           { xpxs }
           { fsmt }
         </div>
+        ) }
         <Components.FileOpenBtnDemoC  
         />
         <ExploreContainer name="Tab 1 page" />
+        { allowAnimatedContents && (
         <CurrentDateTime1 />
+        ) }
         { null && (
         <React.Fragment key={1}>
         <DccDemoTwo1 />
         </React.Fragment>
         ) }
         <SdlsdDemo />
+        <BeepButton />
+        <BassDrumKickSoundButtonC />
+        <BassDropButtonC />
+        { allowAnimatedContents && (
         <CmC />
+        ) }
       </IonContent>
     </IonPage>
   );
