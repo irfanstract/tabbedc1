@@ -76,7 +76,9 @@ const Tab1: React.FC = () => {
         <BeepButton />
         <BassDrumKickSoundButtonC />
         <BassDropButtonC />
+        { allowAnimatedContents && (
         <CmC />
+        ) }
       </IonContent>
     </IonPage>
   );
