@@ -64,7 +64,9 @@ const Tab1: React.FC = () => {
         <Components.FileOpenBtnDemoC  
         />
         <ExploreContainer name="Tab 1 page" />
+        { allowAnimatedContents && (
         <CurrentDateTime1 />
+        ) }
         { null && (
         <React.Fragment key={1}>
         <DccDemoTwo1 />
