@@ -7,10 +7,12 @@ import {
   IonTabBar,
   IonTabButton,
   IonTabs,
+  IonButton ,
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
+import { WithErrorbound, } from 'library/rcs1';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
@@ -34,6 +36,8 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+import "./index.css" ;
+
 setupIonicReact();
 
 const App: React.FC = () => (
@@ -41,6 +45,7 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
+          <WithErrorbound Button={IonButton}>
           <Route exact path="/tab1">
             <Tab1 />
           </Route>
@@ -53,6 +58,7 @@ const App: React.FC = () => (
           <Route exact path="/">
             <Redirect to="/tab1" />
           </Route>
+          </WithErrorbound>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="tab1" href="/tab1">
