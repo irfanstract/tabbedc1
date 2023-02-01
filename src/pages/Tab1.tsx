@@ -33,6 +33,10 @@ import { BassDrumKickSoundButtonC, } from "components/BeepButton";
 import './Tab1.css';
 
 const Tab1: React.FC = () => {
+  const [
+    allowAnimatedContents ,
+    setAllowAnimatedContents ,
+  ] = React.useState<boolean>(false, ) ;
   return (
     <IonPage>
       <IonHeader>
