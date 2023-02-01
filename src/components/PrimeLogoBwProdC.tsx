@@ -39,7 +39,19 @@ const xpxs = (
     ...{ } ,
   }}
   > 
-  { ({ withAttachment, withAttachmentAll1 = null, componentId: componentId, }) => (
+  { ({ 
+    
+    //
+    withAttachment, 
+    withAttachmentAll1 = null, 
+    //
+    withAttachmentC ,
+    asClippedC ,
+    
+    //
+    componentId: componentId, 
+
+  }) => (
   <React.Fragment>
   { (
     /**   
@@ -105,11 +117,11 @@ const xpxs = (
       }>(a: A, ) => a
     ) ;
     const { 
-      gradAttachment1,  
-    } = xcm({
+      gradAttachment1C,  
+    } = ({
       
-      gradAttachment1: (
-        withAttachment(({ assignedId, }) => (
+      gradAttachment1C: (
+        withAttachmentC(({ assignedId, }) => (
           <linearGradient id={assignedId } direction={`0deg`}> 
           <stop offset={`${  0}%`} stop-color="#0000C0" />
           <stop offset={`${100}%`} stop-color="#8000C0" />
@@ -121,10 +133,10 @@ const xpxs = (
 
     }) ;
     const {
-      simpleCircleDef1
-    } = xcm({
-      simpleCircleDef1: (
-        withAttachment(({ assignedId, }) => (
+      simpleCircleDef1C  
+    } = ({
+      simpleCircleDef1C: (
+        withAttachmentC(({ assignedId, }) => (
           <circle 
           id={assignedId }
           {...{ cx: 64, cy: 64, r: 32, }} 
@@ -136,11 +148,13 @@ const xpxs = (
       ) ,
     }) ;
     const {
-      xBwTxtDef ,
-    } = xcm({
-      xBwTxtDef : (
-        withAttachment(({ assignedId, }) => (
-          <g id={assignedId }>     
+      xBwTxtDefC ,
+    } = ({
+      xBwTxtDefC : (
+        withAttachmentC(({ assignedId, }) => {
+        ;
+        const main = (
+          <g >     
           <g
           style={{
             transform: ( 
@@ -170,21 +184,39 @@ const xpxs = (
           </g>
           </g>
           </g>
-        ) , { assignedId: "xBwLogoDef", } )
+        ) ;
+        return (
+          <g id={assignedId }>    
+          { (
+            asClippedC([
+              main ,
+              { clippingGraph: (
+                <g transform="scale(1, -1) " >
+                <rect 
+                {...{ width: 512, height: 512, } }
+                />
+                </g>
+              ) , } ,
+            ] , { id: "xBwLogoDefImpl" } )
+            || <></>
+          ) }
+          </g>
+        ) ;
+        } , { assignedId: "xBwLogoDef", } )
         || 
         [{ href: "#unresolved", }, null ]
       ) ,
     }) ;
     const { 
-      pattern1,
-    } = xcm({
+      pattern1C,
+    } = ({
       
-      pattern1 : (
-        withAttachment(({ assignedId }) => (
+      pattern1C : (
+        withAttachmentC(({ assignedId }) => (
           <g
           id={assignedId }
           style={{  
-            fill: `url(${gradAttachment1[0].href }) ` ,
+            fill: `url(${gradAttachment1C.href }) ` ,
           }}
           >
           { (
@@ -234,7 +266,7 @@ const xpxs = (
                           }}
                           >
                             <use 
-                            href={`${xBwTxtDef[0].href }` }
+                            href={`${xBwTxtDefC.href }` }
                             />
                           </g>
                         </g>
@@ -265,12 +297,12 @@ const xpxs = (
           mask={(
             // `url(${pattern1[0].href }P)` 
             // `url(${simpleCircleDef1[0].href }P)` 
-            `url(${pattern1[0].href }P)` 
+            `url(${pattern1C.href }P)` 
           )}
           >
             <rect
             {...{ width: 600, height: 300, }}
-            fill={`url(${gradAttachment1[0].href })` }
+            fill={`url(${gradAttachment1C.href })` }
             />
           </g>
         </g>
@@ -286,11 +318,7 @@ const xpxs = (
         </g>
       </g>
       <>
-      { (simpleCircleDef1)[1] }
-      { (gradAttachment1 )[1] }
-      { (pattern1        )[1] }
       { (rect3           )[1] }
-      { (xBwTxtDef       )[1] }
       </>
       </>
     ) ;
