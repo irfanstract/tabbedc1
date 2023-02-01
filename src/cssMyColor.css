@@ -1,0 +1,39 @@
+/* 
+ * https://stackoverflow.com/a/63848864 
+ * https://developer.mozilla.org/en-US/docs/Web/CSS/@property 
+ *
+ */
+#----e {}
+
+
+
+
+
+
+
+
+
+
+
+
+@property --my-color1 {
+  syntax: '<color>';
+  initial-value: magenta;
+  inherits: false;
+}
+
+@property --my-color2 {
+  syntax: '<color>';
+  initial-value: green;
+  inherits: false;
+}
+
+@property --my-angle1 {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+
+
+
