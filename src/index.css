@@ -1,4 +1,5 @@
 
+@import "./cssMyColor.css" ;
 @import "./theme/d-scrollpanes.css" ;
 @import "./theme/d-fontStylingRootElems.css" ;
 #-----e { display: block; }
@@ -57,6 +58,28 @@ del, s,
    text-decoration: line-through solid currentcolor ;
    text-decoration-thickness: 1ex ;
    user-select: none ;
+}
+
+.TlAInfo * {
+   transition: all 0.5s ease-out;
+}
+
+.playback-btn-marquee {
+   animation-name: PBM1 ;
+   animation-duration: 1s ;
+   animation-timing-function: linear ;
+   animation-iteration-count: infinite;
+   display: inline-block;
+   position: relative;
+   z-index: -5 ;
+}
+@keyframes PBM1 {
+   0% {
+      transform: translate(calc( 1 * var(--pbm-dir, 3em) ), 0em ) ;
+   }
+   100% {
+      transform: translate(calc(-1 * var(--pbm-dir, 3em) ), 0em ) ;
+   }
 }
 
 
