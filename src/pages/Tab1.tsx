@@ -28,6 +28,7 @@ import fsmt from "components/MetroFshExpoBanner";
 import BeepButton from "components/BeepButton";
 import { BassDropButtonC, } from "components/BeepButton";
 import { BassDrumKickSoundButtonC, } from "components/BeepButton";
+import { AnalysisCDemo, } from "library/audioctx/ansnr/V1";
 
 /** CSS Imports */
 import './Tab1.css';
@@ -79,6 +80,7 @@ const Tab1: React.FC = () => {
         { allowAnimatedContents && (
         <CmC />
         ) }
+        { true && <AnalysisCDemo /> }
       </IonContent>
     </IonPage>
   );
