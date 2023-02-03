@@ -130,12 +130,9 @@ const useXAnalysisNode1 = (
     ) ;
   }
 ) ;
+import { RawFreqDomainValuesProps  , } from "library/audioctx/ansnr/RFDVP1";
+import { fAnalysedNodeCapture      , } from "library/audioctx/ansnr/RFDVP1";
 const useXAnalysis1 = (() => {
-  type RawFreqDomainValuesProps = (
-    {}
-    & { rawFreqDomainValues1: number[] ; }
-    & { rawFreqDomainValues: Immutable.List<{ k: number ; v: number ; }> ; }
-  ) ;
   type FinalReturn = (
     {}
     & { analys: AnalyserNode ; } 
@@ -161,45 +158,9 @@ const useXAnalysis1 = (() => {
           & RawFreqDomainValuesProps
         ) => {
           if (analys) {
-            ;
-            const {
-              sampleRate: ctxSampleRate
-            } = analys.context ;
-            const {
-              frequencyBinCount: frequencyBinCount,
-            } = (
-              analys
+            return (
+              fAnalysedNodeCapture(analys, )
             ) ;
-            const freqs = (
-              Immutable.Range(0, frequencyBinCount, 1 )
-              .map(i => (
-                1 + i
-              ) )
-              .map(i => (
-                (i / (2 * frequencyBinCount ) ) * ctxSampleRate
-              ) )
-              .toArray()
-            ) ;
-            const buffer = (
-              new Uint8Array(frequencyBinCount )
-            ) ;
-            analys.getByteFrequencyData(buffer) ;
-            return {
-              //
-              rawFreqDomainValues1: (
-                [...buffer]
-              ) ,
-              rawFreqDomainValues: (
-                Immutable.Range(0, frequencyBinCount, 1, )
-                .toList()
-                .map((i: number): { k: number ; v: number ; } => (
-                  {
-                    k: (  freqs[i] ) || 0 , 
-                    v: ( buffer[i] ) || 0 , 
-                  }
-                ) )
-              ) ,
-            } ;
           } else {
             return {
               rawFreqDomainValues1: (
