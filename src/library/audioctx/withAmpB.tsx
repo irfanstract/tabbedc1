@@ -76,6 +76,7 @@ namespace XWith {
     startTapoffOnlyNd() : CWA ;
 
     // the derivations
+    withConstantAmp(v: number): Omit<CWA, keyof Pick<CWA, "gainParam" > > ;
     /**   
      * {@link GainNode }
      */
@@ -265,6 +266,17 @@ export const forAudioCtx = (() => {
             }
           ) ;
 
+          withConstantAmp = (
+            SS.identity<XWith.CWA["withConstantAmp"] >((value1) => {
+              const newNd1 = (
+                this.withVariableAmp()
+              ) ;
+              newNd1.gainParam.setValueAtTime(value1, 0, ) ;
+              return (
+                newNd1
+              ) ;
+            } )
+          ) ;
           withVariableAmp() { 
             return (
               forAudioCtx({
