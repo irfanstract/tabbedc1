@@ -48,11 +48,17 @@ export default (
           getAudioCtx(e.nativeEvent)
         ) ;
         {
-          const nd10 = (
+          const nd100 = (
             forAudioCtx({
               ctx: c , 
               dest: c.destination ,
             })
+          ) ;
+          if (1) {
+            nd100.close({ t: c.currentTime + (5 * 60 ) , }) ;
+          }
+          const nd10 = (
+            nd100
             .asAmplSyncedPrctWhiteNoise()
             // .withConstantAmp(2 ** -1, )
             .withVariableAmp()
