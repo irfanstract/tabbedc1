@@ -76,6 +76,7 @@ namespace XWith {
     startTapoffOnlyNd() : CWA ;
 
     // the derivations
+    withConstantAmp(v: number): Omit<CWA, keyof Pick<CWA, "gainParam" > > ;
     /**   
      * {@link GainNode }
      */
@@ -87,6 +88,10 @@ namespace XWith {
         & Pick<BiquadFilterNode, "type" | "frequency" | "gain" | "Q">
       ) ; 
     } ;
+    /**    */
+    asAmplAnalysis(): CWA ;
+    /**    */
+    asAmplSyncedPrctWhiteNoise(): CWA ;
     /**   
      * {@link OscillatorNode } or {@link AudioBufferSourceNode }
      */
@@ -261,6 +266,17 @@ export const forAudioCtx = (() => {
             }
           ) ;
 
+          withConstantAmp = (
+            SS.identity<XWith.CWA["withConstantAmp"] >((value1) => {
+              const newNd1 = (
+                this.withVariableAmp()
+              ) ;
+              newNd1.gainParam.setValueAtTime(value1, 0, ) ;
+              return (
+                newNd1
+              ) ;
+            } )
+          ) ;
           withVariableAmp() { 
             return (
               forAudioCtx({
@@ -287,6 +303,62 @@ export const forAudioCtx = (() => {
                 ctrls: bdFltNode1 ,
               } ;
             }
+          ) ;
+          asAmplSyncedPrctWhiteNoise = (
+            SS.identity<(
+              XWith.CWA["asAmplSyncedPrctWhiteNoise"]
+            )>(() => {
+              const nd0 = this ;
+              // TODO
+              const nd2 = nd0.withVariableAmp() ;
+              nd2.gainParam.setValueAtTime(0, 0, ) ;
+              nd2.startPracticalWhiteNoise({ startT: 0.1, }) ;
+              const nd1 = nd0.startTapoffOnlyNd().asAmplAnalysis() ;
+              (
+                nd1.asReconnectible().tapOutPt
+                .connect(nd2.gainParam )
+              ) ;
+              return nd1.withVariableAmp() ;
+            } )
+          ) ;
+          asAmplAnalysis = (
+            SS.identity<(
+              XWith.CWA["asAmplAnalysis"]
+            )>(() => {
+              ;
+              const nd0 = this ;
+              const cvnd = (() => {
+                const ndx = (
+                  ctx.createConvolver()
+                ) ;
+                const buf1 = (
+                  ctx.createBuffer(1, 5, ctx.sampleRate )
+                ) ;
+                buf1.copyToChannel((
+                  Float32Array.from([21, -21, 0, 0, 0, ])
+                ), 0 ) ;
+                ndx.buffer = buf1 ;
+                ndx.normalize = false ;
+                return (
+                  ndx
+                ) ;
+              } )() ;
+              const nd1 = (
+                nd0.startTapoffOnlyNd()
+              ) ;
+              (
+                nd1.asReconnectible().tapOutPt
+                .connect(cvnd )
+              ) ;
+              (
+                cvnd
+                .connect(nd0.asReconnectible().asFeedinPt )
+              ) ;
+              // TODO
+              return (
+                nd1.withVariableAmp()
+              ) ;
+            } )
           ) ;
           startNewOscillator = (
             SS.identity<(
