@@ -311,7 +311,10 @@ export const forAudioCtx = (() => {
               const nd0 = this ;
               // TODO
               const nd2 = nd0.withVariableAmp() ;
-              nd2.startPracticalWhiteNoise({ startT: 0.1, }) ;
+              nd2.startNewOscillator({ 
+                startT: 0, 
+                type: XWith.OSC.of({ waveType: "triangle", }), 
+              }) ;
               const nd1 = nd0.startTapoffOnlyNd().asAmplAnalysis() ;
               M : {
                 if (0) {
