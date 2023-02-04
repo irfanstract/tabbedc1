@@ -315,7 +315,7 @@ export const forAudioCtx = (() => {
                 startT: 0, 
                 type: XWith.OSC.of({ waveType: "triangle", }), 
               }) ;
-              const nd1 = nd0.startTapoffOnlyNd().asAmplAnalysis() ;
+              const nd1 = nd0.startTapoffOnlyNd() ;
               M : {
                 if (0) {
                   nd2.gainParam.setValueAtTime(1, 0, ) ;
@@ -329,7 +329,8 @@ export const forAudioCtx = (() => {
                   ) ;
                 }
               }
-              return nd1.withVariableAmp() ;
+              const nd11 = nd1.asAmplAnalysis() ;
+              return nd11.withVariableAmp() ;
             } )
           ) ;
           asAmplAnalysis = (
