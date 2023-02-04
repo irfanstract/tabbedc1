@@ -311,13 +311,21 @@ export const forAudioCtx = (() => {
               const nd0 = this ;
               // TODO
               const nd2 = nd0.withVariableAmp() ;
-              nd2.gainParam.setValueAtTime(0, 0, ) ;
               nd2.startPracticalWhiteNoise({ startT: 0.1, }) ;
               const nd1 = nd0.startTapoffOnlyNd().asAmplAnalysis() ;
-              (
-                nd1.asReconnectible().tapOutPt
-                .connect(nd2.gainParam )
-              ) ;
+              M : {
+                if (0) {
+                  nd2.gainParam.setValueAtTime(1, 0, ) ;
+                  break M ;
+                }
+                {
+                  nd2.gainParam.setValueAtTime(0, 0, ) ;
+                  (
+                    nd1.asReconnectible().tapOutPt
+                    .connect(nd2.gainParam )
+                  ) ;
+                }
+              }
               return nd1.withVariableAmp() ;
             } )
           ) ;
