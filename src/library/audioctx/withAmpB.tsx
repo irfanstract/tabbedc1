@@ -76,6 +76,7 @@ namespace XWith {
     startTapoffOnlyNd() : CWA ;
 
     // the derivations
+    withConstantAmp(v: number): Omit<CWA, keyof Pick<CWA, "gainParam" > > ;
     /**   
      * {@link GainNode }
      */
@@ -87,6 +88,10 @@ namespace XWith {
         & Pick<BiquadFilterNode, "type" | "frequency" | "gain" | "Q">
       ) ; 
     } ;
+    /**    */
+    asAmplAnalysis(): CWA ;
+    /**    */
+    asAmplSyncedPrctWhiteNoise(): CWA ;
     /**   
      * {@link OscillatorNode } or {@link AudioBufferSourceNode }
      */
@@ -261,6 +266,17 @@ export const forAudioCtx = (() => {
             }
           ) ;
 
+          withConstantAmp = (
+            SS.identity<XWith.CWA["withConstantAmp"] >((value1) => {
+              const newNd1 = (
+                this.withVariableAmp()
+              ) ;
+              newNd1.gainParam.setValueAtTime(value1, 0, ) ;
+              return (
+                newNd1
+              ) ;
+            } )
+          ) ;
           withVariableAmp() { 
             return (
               forAudioCtx({
@@ -287,6 +303,172 @@ export const forAudioCtx = (() => {
                 ctrls: bdFltNode1 ,
               } ;
             }
+          ) ;
+          asAmplSyncedPrctWhiteNoise = (
+            SS.identity<(
+              XWith.CWA["asAmplSyncedPrctWhiteNoise"]
+            )>(() => {
+              const nd0 = this ;
+              // TODO
+              const nd2 = nd0.withVariableAmp() ;
+              const ndp1 = (
+                nd2.withConstantAmp(2 ** -3 )
+              ) ;
+              ndp1.startNewOscillator({ 
+                startT: 0, 
+                type: XWith.OSC.of({ waveType: "triangle", }), 
+              }) ;
+              const nd1 = nd0.startTapoffOnlyNd() ;
+              M : {
+                if (0) {
+                  nd2.gainParam.setValueAtTime(1, 0, ) ;
+                  break M ;
+                }
+                {
+                  nd2.gainParam.setValueAtTime(0, 0, ) ;
+                  (
+                    nd1.asReconnectible().tapOutPt
+                    .connect(nd2.gainParam )
+                  ) ;
+                }
+              }
+              const nd11 = nd1.asAmplAnalysis() ;
+              return nd11.withVariableAmp() ;
+            } )
+          ) ;
+          asAmplAnalysis = (
+            SS.identity<(
+              XWith.CWA["asAmplAnalysis"]
+            )>(() => {
+              ;
+              const nd0 = this ;
+              const cvnd = (({ mode, } : {
+                mode: (
+                  never 
+                  | 1 
+                  | 2
+                ) ; 
+              } ): AnalyserNode | AudioNode => {
+                const xMainOutput = (
+                  nd0.asReconnectible().asFeedinPt
+                ) ;
+                switch (mode) {
+
+                case 1 :
+                {
+                const xConstNd2 = (
+                  ctx.createConstantSource()
+                ) ;
+                xConstNd2.offset.setValueAtTime(0, 0) ;
+                {
+                  (
+                    xConstNd2
+                    .connect(xMainOutput )
+                  );
+                  xConstNd2.start(0, ) ;
+                }
+                const xAnalyserNd1 = (
+                  ctx.createAnalyser()
+                ) ;
+                xAnalyserNd1.fftSize = 8192 ;
+                {
+                  // TODO
+                  (async () => {
+                    for (;; (
+                      await (
+                        new Promise<void>(R => (
+                          setTimeout(R, (2 ** -5 ) * 1000 , )
+                        ) )
+                      )
+                    ) ) {
+                      const {
+                        rawFreqDomainValues ,
+                      } = (
+                        fAnalysedNodeCapture(xAnalyserNd1)
+                      ) ;
+                      const value = (
+                        rawFreqDomainValues
+                        .toSeq()
+                        .map(e => (
+                          // TODO
+                          e.v / 0xFF 
+                        ) )
+                        .map((v: number): number => {
+                          if (isNaN(v) || v.toString().match(/Infi/g ) ) {
+                            return 0 ;
+                          }
+                          return v ;
+                        } )
+                        .reduce<{ max: number ; sum: number ; }>(({ max: max0, sum: sum0, } , v1) => {
+                          return {
+                            max: (
+                              Math.max(...[
+                                max0 ,
+                                v1 ,
+                              ])
+                            ) ,
+                            sum: sum0 + v1 ,
+                          } ;
+                        } , { max: 0, sum: 0, }, )
+                        .max
+                      ) ;
+                      1 && (
+                        xConstNd2.offset
+                        .setTargetAtTime(value, xConstNd2.context.currentTime, 2 ** -7 )
+                      ) ;
+                    }
+                  })() ;
+                }
+                return xAnalyserNd1 ;
+                }
+
+                case 2 :
+                {
+                  const nd1 = (
+                    ctx.createGain()
+                  ) ;
+                  // return (
+                  //   new AudioWorkletNode(ctx, "gainofb", )
+                  // ) ;
+                  (async () => {
+                    const nd2 = (
+                      new AudioWorkletNode(ctx, "gainofb", )
+                      // new GainNode(ctx)
+                    ) ;
+                    nd1.connect(nd2) ;
+                    nd2.connect(xMainOutput);
+                  } )() ;
+                  return (
+                    nd1
+                  ) ;
+                }
+                  
+                }
+              } )({ mode: 2, }) ;
+              const nd1 = (
+                nd0.startTapoffOnlyNd()
+              ) ;
+              (
+                nd1.asReconnectible().tapOutPt
+                .connect(cvnd )
+              ) ;
+              {
+                //
+              }
+              // TODO
+              if (0) {
+                const ndx = (
+                  nd1.startNewOscillator({
+                    startT: nd1.currentTime ,
+                    type: XWith.OSC.of({ waveType: "triangle", }) ,
+                  })
+                ) ;
+                ndx.frequency.setValueAtTime(220, 0, ) ;
+              }
+              return (
+                nd1.withVariableAmp()
+              ) ;
+            } )
           ) ;
           startNewOscillator = (
             SS.identity<(
@@ -490,6 +672,7 @@ export namespace SNO {
   export const WSM = XWith.WSM ;
   export const OSC = XWith.OSC ;
 } ;
+import { fAnalysedNodeCapture, } from "./ansnr/RFDVP1";
 
 
 
