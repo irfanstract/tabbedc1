@@ -29,6 +29,7 @@ const values = (
       obj
     ) 
   )({
+    GAINOF     : new URL(("shd-gainof.mjs"     ), import.meta.url, ) ,
     // GAINOF : new URL(("shd-gainof.mjs"     ), import.meta.url, ) ,
   })
 ) ;
