@@ -28,14 +28,39 @@
  * 
  */
 
-console["info"](`SHD GAINOF`) ;
+console["info"](`SHD GAINOF 1`) ;
 {
   /**
    * "**********GGGGAINOFP"
    * 
    */
-  // @ts-ignore
-  class GainofProcessor1 extends AudioWorkletProcessor {
+  class GainofProcessor1 extends (
+    // @ts-ignore
+    class XAudioWorkletProcessor1 extends AudioWorkletProcessor {}
+  ) {
+
+    /**    
+     * @typedef {Object } Stats
+     * 
+     * @property {{ min: number ; max: number ; }[] } lastMinMaxSns
+     * 
+     */
+    
+    // @ts-ignore
+    constructor(...args ) { 
+      // @ts-ignore
+      super(...args ) ;
+      
+      /**   
+       * @type {Stats }
+       */
+      this.state = {
+
+        lastMinMaxSns: [] ,
+        
+      } ;
+    }
+
     /**   
      * 
      * @type {(inputs: SrcDestNodeMap<SrcDestNodeChannelMap<XNumericArrayBuffer > >, outputs: SrcDestNodeMap<SrcDestNodeChannelMap<XNumericArrayBuffer > >, options3: {}, ) => true }
@@ -43,6 +68,11 @@ console["info"](`SHD GAINOF`) ;
     process(inputs, outputs, options3, ) {
       {
         ;
+        
+        const {
+          state: existingStat ,
+        } = this ;
+
         const allCHnls = (
           (inputs.flatMap(chnls => chnls) )
         ) ;
@@ -50,17 +80,43 @@ console["info"](`SHD GAINOF`) ;
           [...allCHnls ]
           .flatMap(buf => [...buf] )
         ) ;
-        const xExtrema = (
+        const currentInputValuesMinMax = (
           {
-            max: (allValues ).reduce(/** @type {(...args: [number, number] ) => number } */ (v0, v1) => Math.max(v0, v1) , 0 ) ,
-            min: (allValues ).reduce(/** @type {(...args: [number, number] ) => number } */ (v0, v1) => Math.min(v0, v1) , 0 ) ,
+            max: (allValues ).reduce(/** @type {(...args: [number, number] ) => number } */ (v0, v1) => Math["max"](v0, v1) , Number["MIN_VALUE"] ) ,
+            min: (allValues ).reduce(/** @type {(...args: [number, number] ) => number } */ (v0, v1) => Math["min"](v0, v1) , Number["MAX_VALUE"] ) ,
           }
         ) ;
+        const xPostworthyMinMax = (
+          {
+            max: ([...existingStat.lastMinMaxSns.map(e => e["max"] ), currentInputValuesMinMax["max"], ] ).reduce(/** @type {(...args: [number, number] ) => number } */ (v0, v1) => Math["max"](v0, v1) , Number["MIN_VALUE"] ) ,
+            min: ([...existingStat.lastMinMaxSns.map(e => e["min"] ), currentInputValuesMinMax["min"], ] ).reduce(/** @type {(...args: [number, number] ) => number } */ (v0, v1) => Math["min"](v0, v1) , Number["MAX_VALUE"] ) ,
+          }
+        ) ;
+        
         outputs.forEach(o1 => (
           o1.forEach(buf => (
-            buf.fill((xExtrema.max - xExtrema.min ) / 2 )
+            buf.fill((
+              (
+                Math.max(0, xPostworthyMinMax.max - xPostworthyMinMax.min ) 
+                / 2 
+              )
+              * 
+              (2 ** 3 )
+            ))
           ) )
         ) ) ;
+
+        this.state = {
+
+          lastMinMaxSns: [
+            currentInputValuesMinMax ,
+            ...(
+              existingStat.lastMinMaxSns
+              .slice(0, 26, )
+            ) ,
+          ] ,
+
+        } ;
       }
       // setTimeout(() => {
       //   // @ts-ignore
@@ -72,6 +128,7 @@ console["info"](`SHD GAINOF`) ;
         true
       ) ;
     }
+
   }
   /** 
    * it appears that   
