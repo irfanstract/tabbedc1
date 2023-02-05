@@ -7,9 +7,6 @@ import Immutable from "immutable";
 import * as Collections from "library/util-immutable-datastructure" ;
 import * as Math2 from "library/util-math-max" ;
 import React from 'react';
-import * as RCS from "library/rcs1" ;
-import CurrentDateTime1 from 'components/CurrentDateTime1';
-import * as Ion from "library/useIonicUi1" ;
 
 
 
