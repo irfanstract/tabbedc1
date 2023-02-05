@@ -342,22 +342,109 @@ export const forAudioCtx = (() => {
             )>(() => {
               ;
               const nd0 = this ;
-              const cvnd = (() => {
-                const ndx = (
-                  ctx.createConvolver()
+              const cvnd = (({ mode, } : {
+                mode: (
+                  never 
+                  | 1 
+                  | 2
+                ) ; 
+              } ): AnalyserNode | AudioNode => {
+                const xMainOutput = (
+                  nd0.asReconnectible().asFeedinPt
                 ) ;
-                const buf1 = (
-                  ctx.createBuffer(1, 5, ctx.sampleRate )
+                switch (mode) {
+
+                case 1 :
+                {
+                const xConstNd2 = (
+                  ctx.createConstantSource()
                 ) ;
-                buf1.copyToChannel((
-                  Float32Array.from([21, -21, 0, 0, 0, ])
-                ), 0 ) ;
-                ndx.buffer = buf1 ;
-                ndx.normalize = false ;
-                return (
-                  ndx
+                xConstNd2.offset.setValueAtTime(0, 0) ;
+                {
+                  (
+                    xConstNd2
+                    .connect(xMainOutput )
+                  );
+                  xConstNd2.start(0, ) ;
+                }
+                const xAnalyserNd1 = (
+                  ctx.createAnalyser()
                 ) ;
-              } )() ;
+                xAnalyserNd1.fftSize = 8192 ;
+                {
+                  // TODO
+                  (async () => {
+                    for (;; (
+                      await (
+                        new Promise<void>(R => (
+                          setTimeout(R, (2 ** -5 ) * 1000 , )
+                        ) )
+                      )
+                    ) ) {
+                      const {
+                        rawFreqDomainValues ,
+                      } = (
+                        fAnalysedNodeCapture(xAnalyserNd1)
+                      ) ;
+                      const value = (
+                        rawFreqDomainValues
+                        .toSeq()
+                        .map(e => (
+                          // TODO
+                          e.v / 0xFF 
+                        ) )
+                        .map((v: number): number => {
+                          if (isNaN(v) || v.toString().match(/Infi/g ) ) {
+                            return 0 ;
+                          }
+                          return v ;
+                        } )
+                        .reduce<{ max: number ; sum: number ; }>(({ max: max0, sum: sum0, } , v1) => {
+                          return {
+                            max: (
+                              Math.max(...[
+                                max0 ,
+                                v1 ,
+                              ])
+                            ) ,
+                            sum: sum0 + v1 ,
+                          } ;
+                        } , { max: 0, sum: 0, }, )
+                        .max
+                      ) ;
+                      1 && (
+                        xConstNd2.offset
+                        .setTargetAtTime(value, xConstNd2.context.currentTime, 2 ** -7 )
+                      ) ;
+                    }
+                  })() ;
+                }
+                return xAnalyserNd1 ;
+                }
+
+                case 2 :
+                {
+                  const nd1 = (
+                    ctx.createGain()
+                  ) ;
+                  // return (
+                  //   new AudioWorkletNode(ctx, "gainofb", )
+                  // ) ;
+                  (async () => {
+                    const nd2 = (
+                      new AudioWorkletNode(ctx, "gainofb", )
+                      // new GainNode(ctx)
+                    ) ;
+                    nd1.connect(nd2) ;
+                    nd2.connect(xMainOutput);
+                  } )() ;
+                  return (
+                    nd1
+                  ) ;
+                }
+                  
+                }
+              } )({ mode: 2, }) ;
               const nd1 = (
                 nd0.startTapoffOnlyNd()
               ) ;
@@ -365,10 +452,9 @@ export const forAudioCtx = (() => {
                 nd1.asReconnectible().tapOutPt
                 .connect(cvnd )
               ) ;
-              (
-                cvnd
-                .connect(nd0.asReconnectible().asFeedinPt )
-              ) ;
+              {
+                //
+              }
               // TODO
               if (0) {
                 const ndx = (
