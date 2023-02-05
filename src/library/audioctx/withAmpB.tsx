@@ -432,8 +432,8 @@ export const forAudioCtx = (() => {
                   // ) ;
                   (async () => {
                     const nd2 = (
-                      // new AudioWorkletNode(ctx, "gainofb", )
-                      new GainNode(ctx)
+                      new AudioWorkletNode(ctx, "gainofb", )
+                      // new GainNode(ctx)
                     ) ;
                     nd1.connect(nd2) ;
                     nd2.connect(xMainOutput);
