@@ -456,6 +456,15 @@ export const forAudioCtx = (() => {
                 //
               }
               // TODO
+              if (0) {
+                const ndx = (
+                  nd1.startNewOscillator({
+                    startT: nd1.currentTime ,
+                    type: XWith.OSC.of({ waveType: "triangle", }) ,
+                  })
+                ) ;
+                ndx.frequency.setValueAtTime(220, 0, ) ;
+              }
               return (
                 nd1.withVariableAmp()
               ) ;
