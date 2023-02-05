@@ -48,13 +48,29 @@ export default (
           getAudioCtx(e.nativeEvent)
         ) ;
         {
-          const nd1 = (
+          const nd100 = (
             forAudioCtx({
               ctx: c , 
               dest: c.destination ,
             })
           ) ;
-          nd1.gainParam.setValueAtTime(2 ** -3, 0 ) ;
+          if (1) {
+            nd100.close({ t: c.currentTime + (5 * 60 ) , }) ;
+          }
+          const nd10 = (
+            nd100
+            .asAmplSyncedPrctWhiteNoise()
+            // .withConstantAmp(2 ** -1, )
+            .withVariableAmp()
+          ) ;
+          nd10.gainParam.setValueAtTime(2 ** -3, 0 ) ;
+          const nd1 = (
+            nd10.withVariableAmp()
+          ) ;
+          nd1.gainParam.setValueAtTime(1, c.currentTime ) ;
+          if (1) {
+            nd1.gainParam.linearRampToValueAtTime(-1, c.currentTime + 1 ) ;
+          }
           const xt = (
             nd1.currentTime
           ) ;
@@ -71,7 +87,7 @@ export default (
             o2.detune["linearRampToValueAtTime"]((-  4  ) * 100 , (xt  +   0.5  ), ) ;
             o2.close({ t: xt + duration , }) ;
           }
-          {
+          if (0) {
             const nd31 = (
               nd1.withVariableAmp()
             ) ;
