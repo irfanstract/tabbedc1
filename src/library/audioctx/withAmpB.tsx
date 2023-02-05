@@ -311,7 +311,10 @@ export const forAudioCtx = (() => {
               const nd0 = this ;
               // TODO
               const nd2 = nd0.withVariableAmp() ;
-              nd2.startNewOscillator({ 
+              const ndp1 = (
+                nd2.withConstantAmp(2 ** -3 )
+              ) ;
+              ndp1.startNewOscillator({ 
                 startT: 0, 
                 type: XWith.OSC.of({ waveType: "triangle", }), 
               }) ;
