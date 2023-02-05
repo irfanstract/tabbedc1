@@ -59,7 +59,14 @@ const instance = (
      * return new instance
      */
     return (
-      new AudioContext()
+      (() => {
+        const c1 = (
+          new AudioContext()
+        ) ;
+        return (
+          c1
+        ) ;
+      } )()
     ) ;
   } )()
 ) ;
