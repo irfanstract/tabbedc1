@@ -378,8 +378,12 @@ export const forAudioCtx = (() => {
               ) ;
               ndp1.startNewOscillator({ 
                 startT: 0, 
-                type: XWith.OSC.of({ waveType: "triangle", }), 
+                type: XWith.OSC.of({ waveType: "sine", }), 
               }) ;
+              ndp1.startNewOscillator({ 
+                startT: 0, 
+                type: XWith.OSC.of({ waveType: "sine", }), 
+              }).frequency.setValueAtTime(350, 0, ) ;
               const nd1 = nd0.startTapoffOnlyNd() ;
               M : {
                 if (0) {
