@@ -7,11 +7,6 @@ import Immutable from "immutable";
 import * as Collections from "library/util-immutable-datastructure" ;
 import * as Math2 from "library/util-math-max" ;
 import React from 'react';
-import * as RCS from "library/rcs1" ;
-import { SvgWithIncl, } from "library/rcsSvg1";
-import * as RCSSVG from "library/rcsSvg1";
-import CurrentDateTime1 from 'components/CurrentDateTime1';
-import * as Ion from "library/useIonicUi1" ;
 
 
 
@@ -36,6 +31,7 @@ declare global {
   }
 } ;
 
+import xStdWorkletScripts from "library/audioctx/wshded1/all-shd";
 const instance = (
   /**   
    * either the preallocated instance if any, or, instead,
@@ -59,7 +55,40 @@ const instance = (
      * return new instance
      */
     return (
-      new AudioContext()
+      (() => {
+        const c1 = (
+          new AudioContext()
+        ) ;
+        if (1) {
+          (async () => {
+            if (1) {
+              try {
+                await (
+                  Promise.all((
+                    Object.entries(xStdWorkletScripts)
+                    .map(async ([title, shaderUrl]) => {
+                      ;
+                      console["log"]((
+                        `registering worklet ${title } with from HREF ${shaderUrl.href } `
+                      )) ;
+                      await (
+                        c1.audioWorklet.addModule((
+                          shaderUrl.href
+                        ))
+                      ) ;
+                    } )
+                  ))
+                ) ;
+              } catch (z) {
+                console["warn"](String(z), [z]) ; 
+              }
+            }
+          } )() ;
+        }
+        return (
+          c1
+        ) ;
+      } )()
     ) ;
   } )()
 ) ;
