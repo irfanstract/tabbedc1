@@ -30,6 +30,7 @@ const values = (
     ) 
   )({
     GAINOF     : new URL(("shd-gainof.mjs"     ), import.meta.url, ) ,
+    FREQSHFT   : new URL(("shd-freqsh1.mjs"    ), import.meta.url, ) ,
     // GAINOF : new URL(("shd-gainof.mjs"     ), import.meta.url, ) ,
   })
 ) ;
