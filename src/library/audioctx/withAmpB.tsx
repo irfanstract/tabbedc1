@@ -82,6 +82,34 @@ namespace XWith {
      * {@link GainNode }
      */
     withVariableAmp(): CWA ;
+    withNativeAudioNodeFlt1(
+      main: (
+        EitherSetAndOthersUnset<(
+          {}
+          & { 
+            /**   
+             * 
+             * @example
+             * ({ ctx }) => ctx.createGain()
+             * 
+             * @example
+             * ({ ctx }) => new AnalyserNode(ctx, ) 
+             * 
+             * @example
+             * // REQUIRES HTTPS!!!
+             * ({ ctx }) => new AudioWorkletNode(ctx, ) 
+             * 
+             * @example
+             * ({ ctx }) => new MediaStreamAudioDestinationNode(ctx as AudioContext, ) 
+             * 
+             */
+            newImplementingNdInstance1: (
+              (ctx: { ctx: BaseAudioContext ; }) => AudioNode
+            ) ; 
+          }
+        )>
+      ) ,
+    ): CWA ;
     withVariableBiquadFiltering : () => { 
       main: CWA ; 
       ctrls: (
@@ -298,6 +326,27 @@ export const forAudioCtx = (() => {
               })
             ) ;
           } 
+          withNativeAudioNodeFlt1 = (
+            SS.identity<XWith.CWA["withNativeAudioNodeFlt1"] >((
+              (mainOptions) => {
+                const {
+                  newImplementingNdInstance1: newNativeNdInstance ,
+                } = mainOptions ;
+                ;
+                const nd1 = (
+                  newNativeNdInstance({
+                    ctx: ctx ,
+                  })
+                ) ;
+                nd1.connect((
+                  this.asReconnectible().asFeedinPt
+                )) ;
+                return (
+                  this.onlyTowardsNativeAudioNode1(nd1 )
+                ) ;
+              }
+            ) )
+          ) ;
           withVariableBiquadFiltering : (
             XWith.CWA["withVariableBiquadFiltering"]
           ) = (
