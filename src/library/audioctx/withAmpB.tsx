@@ -74,6 +74,7 @@ namespace XWith {
     ) ;
 
     startTapoffOnlyNd() : CWA ;
+    onlyTowardsNativeAudioNode1(...args : Parameters<AudioNode["connect"]> ) : CWA ;
 
     // the derivations
     withConstantAmp(v: number): Omit<CWA, keyof Pick<CWA, "gainParam" > > ;
@@ -81,6 +82,34 @@ namespace XWith {
      * {@link GainNode }
      */
     withVariableAmp(): CWA ;
+    withNativeAudioNodeFlt1(
+      main: (
+        EitherSetAndOthersUnset<(
+          {}
+          & { 
+            /**   
+             * 
+             * @example
+             * ({ ctx }) => ctx.createGain()
+             * 
+             * @example
+             * ({ ctx }) => new AnalyserNode(ctx, ) 
+             * 
+             * @example
+             * // REQUIRES HTTPS!!!
+             * ({ ctx }) => new AudioWorkletNode(ctx, ) 
+             * 
+             * @example
+             * ({ ctx }) => new MediaStreamAudioDestinationNode(ctx as AudioContext, ) 
+             * 
+             */
+            newImplementingNdInstance1: (
+              (ctx: { ctx: BaseAudioContext ; }) => AudioNode
+            ) ; 
+          }
+        )>
+      ) ,
+    ): CWA ;
     withVariableBiquadFiltering : () => { 
       main: CWA ; 
       ctrls: (
@@ -265,6 +294,18 @@ export const forAudioCtx = (() => {
               ) ;
             }
           ) ;
+          onlyTowardsNativeAudioNode1 = (
+            SS.identity<XWith.CWA["onlyTowardsNativeAudioNode1"] >((
+              (...xArgs) => {
+                const nd1 = this.startTapoffOnlyNd() ;
+                (
+                  nd1.asReconnectible().tapOutPt
+                  .connect(...xArgs )
+                ) ;
+                return nd1 ;
+              }
+            ) )
+          ) ;
 
           withConstantAmp = (
             SS.identity<XWith.CWA["withConstantAmp"] >((value1) => {
@@ -285,6 +326,27 @@ export const forAudioCtx = (() => {
               })
             ) ;
           } 
+          withNativeAudioNodeFlt1 = (
+            SS.identity<XWith.CWA["withNativeAudioNodeFlt1"] >((
+              (mainOptions) => {
+                const {
+                  newImplementingNdInstance1: newNativeNdInstance ,
+                } = mainOptions ;
+                ;
+                const nd1 = (
+                  newNativeNdInstance({
+                    ctx: ctx ,
+                  })
+                ) ;
+                nd1.connect((
+                  this.asReconnectible().asFeedinPt
+                )) ;
+                return (
+                  this.onlyTowardsNativeAudioNode1(nd1 )
+                ) ;
+              }
+            ) )
+          ) ;
           withVariableBiquadFiltering : (
             XWith.CWA["withVariableBiquadFiltering"]
           ) = (
