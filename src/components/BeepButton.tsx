@@ -55,10 +55,18 @@ export default (
             })
           ) ;
           if (1) {
-            nd100.close({ t: c.currentTime + (5 * 60 ) , }) ;
+            nd100.close({ t: c.currentTime + (15 ) , }) ;
           }
           const nd10 = (
             nd100
+            .withConstantAmp(2 ** -2, )
+            .withNativeAudioNodeFlt1({
+              newImplementingNdInstance1: ({ ctx, }) => {
+                return (
+                  new AudioWorkletNode(ctx, "freqsh1" )
+                ) ;
+              } ,
+            })
             .asAmplSyncedPrctWhiteNoise()
             // .withConstantAmp(2 ** -1, )
             .withVariableAmp()
