@@ -52,15 +52,157 @@ export const SvgWithIncl = (() => {
     // } ;
     
   } ;
-  type MainPayloadCtx = (
+  interface MainPayloadCtx1 extends ExactlyNonNull<(
+    {}
+    & MainPayloadCtxGraphsAndDefsOps
+    & { componentId: string ; }
+  )> {}
+  interface MainPayloadCtxGraphsAndDefsOps extends Exactly<(
     {}
     & (
       EWA0<Parameters<EWA["withAttachment"] > , ReturnType<Required<EWA>["withAttachment1"] > & {} >
-    )
-    & { componentId: string ; }
+    ) 
+  )> {
+
+    asClipped1 : (
+      (...args : [
+        main: [
+          main: React.ReactElement , 
+          options: { clippingGraph: React.ReactElement ; } , 
+        ] ,
+        technicalConfig: { id: string ; } ,
+      ] ) 
+      =>
+      (
+        [
+          React.ReactElement, 
+          ({} & ReturnType<MainPayloadCtxGraphsAndDefsOps["withAttachment"] > )[1], 
+        ] 
+        | null
+      )
+    ) ;
+
+    asClippedC : (
+      (...a : Parameters<MainPayloadCtxGraphsAndDefsOps["asClipped1"] > ) 
+      =>
+      (null | (ReturnType<MainPayloadCtxGraphsAndDefsOps["asClipped1"] > & {} )[0] )
+    ) ;
+    withAttachmentC : (
+      (...a : Parameters<MainPayloadCtxGraphsAndDefsOps["withAttachment"] > ) 
+      =>
+      (null | (ReturnType<MainPayloadCtxGraphsAndDefsOps["withAttachment"] > & {} )[0] )
+    ) ;
+
+  } 
+  abstract class MainPayloadCtxL implements MainPayloadCtx1 {
+    eleeleleeeleeleeleel : 7 = 7 ;
+
+    abstract componentId         : MainPayloadCtx1["componentId"        ] ;
+    
+    /**   
+     * @deprecated
+     */
+    abstract withAttachment      : MainPayloadCtx1["withAttachment"     ] ;
+    /**   
+     * @deprecated
+     */
+    withAttachmentAll1 = undefined ;
+    /**   
+     * @deprecated
+     */
+    asClipped1 : (MainPayloadCtx1["asClipped1"]) = (
+      // TODO
+      (overallContentDesc , { id: overallAssignedId, } ) => {
+        const [primaryContent, { clippingGraph: clippingContent1, },] = (
+          overallContentDesc
+        ) ;
+        const clippingGraphDefRef = (
+          this.withAttachment(({ assignedId: clipGraphDefAssignedId, }) => (
+            <g id={clipGraphDefAssignedId } >
+              { clippingContent1 }
+            </g>
+          ), { 
+            assignedId: (
+              overallAssignedId + "-clippingGraphDef"
+            ) , 
+          } )
+          || 
+          [{ href: "#unresolved", }, null ]
+        ) ; 
+        return [
+          (
+            <g
+            mask={(
+              `url(${clippingGraphDefRef[0].href }P)` 
+            )}
+            >
+              { primaryContent }
+            </g>
+          ) ,
+          clippingGraphDefRef[1] ,
+        ] ;
+      }
+    ) ;
+    
+    asClippedC = (
+      (...a : Parameters<typeof this.asClipped1> ) => {
+        const d = (
+          this.asClipped1(...a )
+          || [null, null]
+        ) ;
+        return d[0] ;
+      }
+    ) ;
+    withAttachmentC = (
+      (...a : Parameters<typeof this.withAttachment> ) => {
+        const d = (
+          this.withAttachment(...a )
+          || 
+          [{ href: "#unresolved", }, null]
+        ) ;
+        return d[0] ;
+      }
+    ) ;
+    
+  }
+  type MainPayloadCtx = (
+    Omit<MainPayloadCtxL, never>
   ) ;
   type MainPayload = (
     (ctx: MainPayloadCtx , ) => React.ReactElement
+  ) ;
+  type DefsRegConfig = (
+        {} 
+        & { 
+          /**    
+           */
+          payloadViewBoxSpec : (
+            {}
+            & 
+            Required<JSX.IntrinsicElements["clipPath"] >["clipPathUnits"]
+          ) ; 
+        }
+        & Partial<(
+          {}
+          & { 
+            /**   
+             * define whether it shall be "copy" or "mirror".
+             */
+            payloadDeclMode : (
+              "copy" | "mirror"
+            ) ; 
+          }
+          & { 
+            /**    
+             * https://stackoverflow.com/a/55840377 . 
+             * there's limitation in by-def the capabilities of `clip-path`s, so
+             * we needed to make it `mask`s instead
+             */
+            clippingEngine : (
+              keyof Pick<JSX.IntrinsicElements, "clipPath" | "mask" >
+            ) ; 
+          }
+        )>
   ) ;
   return (
     SS.identity<(
@@ -76,89 +218,104 @@ export const SvgWithIncl = (() => {
       viewBox,
       style ,
     }) {
-      const ref1 = (
+      const defsElemRef = (
         React.useState<null | SVGElement>(null, )
       ) ;
       const componentId = (
         RCS.useId()
       ) ;
-      const withAttachmentImpl = (
-        SS.identity<Parameters<typeof contentF>[0]["withAttachment"] >((
-          (e, { assignedId, }, ) => {
-            const [defs,] = ref1 ;
-            ;
-            return (
-              defs ?
-              [
-                { href: `#${assignedId }` , } ,
-                RCS.DOM.createPortal(e({ assignedId, }), defs,) ,
-              ]
-              : null
-            ) ;
-          }
-        ))
-      ) ;
-      const defsRegOptions = (() : (
-        {} 
-        & Partial<(
-          {}
-          & { 
-            /**   
-             * define whether it shall be "copy" or "mirror".
-             */
-            payloadDeclMode : (
-              "copy" | "mirror"
-            ) ; 
-          }
-          & { 
-            /**    
-             */
-            payloadAssumedCoordSpace : (
-              {}
-              & 
-              Required<JSX.IntrinsicElements["clipPath"] >["clipPathUnits"]
-            ) ; 
-          }
-          & { 
-            /**    
-             * https://stackoverflow.com/a/55840377 . 
-             * there's limitation in by-def the capabilities of `clip-path`s, so
-             * we needed to make it `mask`s instead
-             */
-            engine : (
-              keyof Pick<JSX.IntrinsicElements, "clipPath" | "mask" >
-            ) ; 
-          }
-        )>
-      ) => ({}))() ;
+      const defsRegOptions = (() : DefsRegConfig => ({
+        payloadViewBoxSpec: "userSpaceOnUse",
+      }))() ;
       return (
         <svg 
         id={componentId}
         {...{ viewBox, style, }}
         children={(
-          (() => {
+          (function useChildrenX1() {
+            const {
+              reactPortalMode ,
+            } = (() : { reactPortalMode: 1 | 2 ; } => ({
+              reactPortalMode: 2 ,
+            }) )() ;
+            const allDefRefListRef = (
+              new (class implements ExactlyNonNull<{}> {
+
+                current !: (
+                  Immutable.List<(
+                    (
+                      ReturnType<MainPayloadCtx["withAttachment"] > & {}
+                    )[1]
+                  ) >
+                ) ;
+                
+                constructor() {
+                  this.current = (
+                    Immutable.List()
+                  ) ;
+                }
+
+              } )
+            ) ;
+            const iWithAttachmentImpl = (
+              SS.identity<Parameters<typeof contentF>[0]["withAttachment"] >((
+                (e, { assignedId, }, ) => {
+                  const [defs,] = defsElemRef ;
+                  ;
+                  if (defs) {
+                    const p = (
+                      RCS.DOM.createPortal(e({ assignedId, }), defs,)
+                    ) ;
+                    const p1 = (
+                      (
+                        (...[{ }, ] : [{ } , ]): null | typeof p => {
+                          switch (reactPortalMode) {
+                            case 1 :
+                              return p ;
+                            case 2 :
+                              (
+                                allDefRefListRef.current = 
+                                allDefRefListRef.current.push(p, )
+                              ) ;
+                              return null ;
+                          }
+                        }
+                      )({ })
+                    ) ;
+                    return [
+                      { href: `#${assignedId }` , } ,
+                      (() => {
+                        return p1 ;
+                      } )() ,
+                    ] ;
+                  } else {
+                    return null ;
+                  }
+                }
+              ))
+            ) ;
+            {
+            ;
             const defsRegOptions1 = (
-              ((): Required<typeof defsRegOptions > => ({
+              ((): Required<DefsRegConfig > => ({
                 payloadDeclMode: "mirror",
-                payloadAssumedCoordSpace: "userSpaceOnUse",
-                engine: "mask",
+                clippingEngine: "mask",
                 ...defsRegOptions ,
               }) )()
             ) ;
-            const payloadCbArgs = (
-              (): Parameters<typeof contentF> => [{
-                // TODO
-                withAttachment: (main, { assignedId: supposedId0, } ) => {
+            const iWithAttachment = (
+              SS.identity<MainPayloadCtx["withAttachment"] >((
+                (main, { assignedId: supposedId0, } ) => {
                   const {  
                     payloadDeclMode ,
-                    payloadAssumedCoordSpace, // 
-                    engine ,
+                    payloadViewBoxSpec, // 
+                    clippingEngine: engine ,
                   } = defsRegOptions1 ;
                   const c1 = (
-                    withAttachmentImpl(main, { assignedId: supposedId0, })
+                    iWithAttachmentImpl(main, { assignedId: supposedId0, })
                   ) ;
                   const c2 = (
-                    withAttachmentImpl(({ assignedId: supposedId1, }) => {
+                    iWithAttachmentImpl(({ assignedId: supposedId1, }) => {
                       const declaredPayload = (
                         (() => {
                           switch (payloadDeclMode) {
@@ -182,7 +339,7 @@ export const SvgWithIncl = (() => {
                         return (
                           <clipPath 
                           id={supposedId1 } 
-                          clipPathUnits={payloadAssumedCoordSpace }
+                          clipPathUnits={payloadViewBoxSpec }
                           >
                           { declaredPayload }
                           </clipPath>
@@ -191,7 +348,7 @@ export const SvgWithIncl = (() => {
                       return (
                         <mask 
                         id={supposedId1 } 
-                        maskContentUnits={payloadAssumedCoordSpace }
+                        maskContentUnits={payloadViewBoxSpec }
                         >
                           <rect 
                           // TODO
@@ -217,24 +374,48 @@ export const SvgWithIncl = (() => {
                     ) ] 
                     : null 
                   )) ;
-                } ,
-                componentId: (
-                  componentId
-                ) ,
-              }, ]
+                }
+              ))
+            ) ;
+            const payloadCbArgs = (
+              (): Parameters<typeof contentF> => [
+                new (class MainPayloadCtxImpl extends MainPayloadCtxL {
+                  // TODO
+                  withAttachment = iWithAttachment ;
+                  componentId = componentId ;
+                } ),
+              ]
             )() ;
+            {
+            ;
+            return (() => {
+            ;
+            const c = (
+              contentF(...payloadCbArgs )
+            ) ;
+            const {
+              current: allDefRefList ,
+            } = (
+              allDefRefListRef
+            ) ;
             return (
               <>
-              <defs ref={ref1[1] } />
-              { contentF(...payloadCbArgs ) }
+              <>
+                <defs ref={defsElemRef[1] } />
+                { [...allDefRefList, ] }
+              </>
+              { c }
               </>
             ) ;
+            } )() ;
+            }
+            }
           } )()
         ) }
         />
       ) ;
     } )
-  ) ;
+  ) ; 
 } )() ;
 interface EWA0<Args extends [main: null | {}, options ?: object,], R extends {}> {
   withAttachment : (
@@ -251,6 +432,55 @@ interface EWA0<Args extends [main: null | {}, options ?: object,], R extends {}>
     )) => null | R
   ) ;
 } ;
+export const {
+  GMeasuringC ,
+  useGMeasCRefDemo ,
+} = (() => {
+  type R = { clientScale: number ; } ;
+  return {
+    useGMeasCRefDemo: () => (
+      React.useCallback((
+        function GMeasCRefDemo(v: null | R ): void { 
+          console["log"](GMeasCRefDemo.name, v, ) ;
+        }
+      ) , [] )
+    ) ,
+    GMeasuringC: (
+      React.forwardRef((
+        SS.identity<(
+          React.ForwardRefRenderFunction<null | R , {} >
+        )>(function GMeasuringCImpl({} , clientRef : React.Ref<R | null> ) {
+          const ref1 = (
+            React.useState<(
+              null | SVGGraphicsElement
+            )>(null )
+          ) ;
+          const [refed, _ ] = ref1 ;
+          React["useMemo"](() => {
+            console["log"]({ refed }) ;
+          } , [refed,] ) ;
+          const {
+            width: refedClientWIdth = null ,
+          } = (
+            (refed && refed.getBBox() )
+            || {}
+          ) ;
+          React.useImperativeHandle(clientRef, () => (
+            (typeof refedClientWIdth === "number") ?
+            { clientScale: refedClientWIdth , }
+            : null
+          ) , [refedClientWIdth ,] ) ;
+          return (
+            <rect 
+            ref={ref1[1] }  
+            {...{ width: 1, height: 1, }}
+            />
+          ) ;
+        } )
+      ))
+    ) ,
+  } ;
+} )() ;
 
 
 
