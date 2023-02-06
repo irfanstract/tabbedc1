@@ -74,6 +74,7 @@ namespace XWith {
     ) ;
 
     startTapoffOnlyNd() : CWA ;
+    onlyTowardsNativeAudioNode1(...args : Parameters<AudioNode["connect"]> ) : CWA ;
 
     // the derivations
     withConstantAmp(v: number): Omit<CWA, keyof Pick<CWA, "gainParam" > > ;
@@ -264,6 +265,18 @@ export const forAudioCtx = (() => {
                 nd2
               ) ;
             }
+          ) ;
+          onlyTowardsNativeAudioNode1 = (
+            SS.identity<XWith.CWA["onlyTowardsNativeAudioNode1"] >((
+              (...xArgs) => {
+                const nd1 = this.startTapoffOnlyNd() ;
+                (
+                  nd1.asReconnectible().tapOutPt
+                  .connect(...xArgs )
+                ) ;
+                return nd1 ;
+              }
+            ) )
           ) ;
 
           withConstantAmp = (
