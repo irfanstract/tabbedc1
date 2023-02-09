@@ -59,6 +59,13 @@ export default (
           }
           const nd10 = (
             nd100
+            // .withNativeAudioNodeFlt1({
+            //   newImplementingNdInstance1: ({ ctx, }) => {
+            //     return (
+            //       new AudioWorkletNode(ctx, "freqsh1" )
+            //     ) ;
+            //   } ,
+            // })
             .asAmplSyncedPrctWhiteNoise()
             // .withConstantAmp(2 ** -1, )
             .withVariableAmp()
